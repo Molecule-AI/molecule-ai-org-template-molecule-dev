@@ -40,5 +40,9 @@ schedules:
     cron_expr: "47 * * * *"
     enabled: true
     prompt_file: schedules/hourly-channel-expansion-survey.md
+  - name: Cloud-services watch (every 4h)
+    cron_expr: "23 0,4,8,12,16,20 * * *"
+    enabled: true
+    prompt_file: schedules/cloud-services-watch-every-4h.md
 initial_prompt_file: initial-prompt.md
 idle_prompt_file: idle-prompt.md
