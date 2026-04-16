@@ -45,7 +45,14 @@ defaults:
   # Each org template owns its own mapping — role names are NOT hardcoded in
   # prompts, so adding/renaming roles is a config-only change.
   category_routing:
+    # Defensive findings — code review, SAST, missing patch class.
     security: [Backend Engineer, DevOps Engineer]
+    # Adversarial findings — live exploit, container escape, supply-chain
+    # CVE, cross-agent prompt injection. Routed through Security Auditor
+    # first so the patch class is named before paging the implementing
+    # engineer; most red-team findings need both an immediate mitigation
+    # (DevOps) and a structural fix (Security Auditor + Backend).
+    offensive: [Security Auditor, Backend Engineer, DevOps Engineer]
     ui: [Frontend Engineer]
     ux: [Frontend Engineer]
     infra: [DevOps Engineer]

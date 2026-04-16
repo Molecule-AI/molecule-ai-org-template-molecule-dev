@@ -33,6 +33,7 @@ children:
   - !include ../backend-engineer/workspace.yaml
   - !include ../devops-engineer/workspace.yaml
   - !include ../security-auditor/workspace.yaml
+  - !include ../offensive-security-engineer/workspace.yaml
   - !include ../qa-engineer/workspace.yaml
   - !include ../uiux-designer/workspace.yaml
 initial_prompt_file: initial-prompt.md
