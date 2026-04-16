@@ -19,18 +19,46 @@ DevOps Engineer busy with real issues.
    - If CI red → delegate_task to the author with the failure summary from
      gh run view <run-id> --log-failed.
 
-3. SCAN ENGINEERING BACKLOG:
-   gh issue list --repo ${GITHUB_REPO} --state open --label bug,feature,security \
-     --json number,title,labels
-   Priority order: security > bug > feature > refactor.
+3. SCAN ENGINEERING BACKLOG (anything PM routed to you OR claimable backlog):
+   gh issue list --repo ${GITHUB_REPO} --state open \
+     --label "bug,feature,security,enhancement,plugin,platform,infra,area:dev-lead" \
+     --json number,title,labels,assignees
+   Priority order: security > bug > feature > enhancement > plugin/refactor.
+
+3a. BREAK DOWN PARENT ISSUES INTO ENGINEER-SIZED SUB-ISSUES (per CEO directive 2026-04-16):
+   For each issue PM routed to you (`area:dev-lead`) OR each large backlog item that
+   needs more than one engineer's work, CREATE sub-issues BEFORE dispatching.
+   Without sub-issues, work is invisible to the engineer's own pick-up filter and
+   the team can't track who's doing what.
+
+   For each engineering chunk:
+   gh issue create --repo ${GITHUB_REPO} \
+     --title "<area>: <imperative scope>" \
+     --label needs-work \
+     --label "<type>" \              # bug | feature | security | platform | infra
+     --label "area:<engineer-role>" \  # backend-engineer | frontend-engineer | devops-engineer | qa-engineer | uiux-designer | security-auditor | offensive-security-engineer
+     --body "Sub-issue of #<parent-N>. <scope + acceptance criteria>. Engineer's
+       pick-up filter matches this; they'll claim within one idle tick (10 min)."
+
+   Reference the parent in EACH sub-issue's body so the parent's "Linked issues"
+   section shows the breakdown — that's how PM tracks aggregate progress.
 
 4. DISPATCH (max 3 A2A per pulse):
-   Match idle engineer → highest-priority unassigned issue:
+   Match idle engineer → highest-priority unassigned sub-issue you (or a prior
+   pulse) created:
    - Backend Engineer → security / platform / Go / database issues
    - Frontend Engineer → canvas / a11y / UX / TypeScript issues
    - DevOps Engineer → docker / CI / deployment / infra issues
+   - QA Engineer → test coverage gaps, regression suites
+   - Security Auditor → security findings (defensive)
+   - Offensive Security Engineer → adversarial findings (probing, supply chain)
+   - UIUX Designer → design system, accessibility audits
+
    delegate_task format: "Work on issue #<N>: <title>. Create branch
      fix/issue-<N>-<slug>. Run tests. Open PR. Link issue in PR body."
+
+   Engineers ALSO claim from their own idle-loop scan when you don't dispatch
+   directly — the labels you set in step 3a let them filter correctly.
 
 5. REPORT:
    commit_memory "dev-pulse HH:MM — dispatched <N>, reviewed <M>, idle <K>".
