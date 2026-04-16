@@ -19,12 +19,37 @@ the inner loop of the 24/7 autonomous team.
 
 3. SCAN INTERNAL BACKLOG:
    search_memory "backlog:" — pull any stashed improvement ideas from prior pulses.
+   search_memory "ceo-directive:" — anything the CEO asked for that hasn't been
+   converted to an issue yet.
+
+3a. CREATE TRACKING ISSUES FOR NEW WORK (per CEO directive 2026-04-16):
+   For every CEO-directive OR backlog item OR follow-up surfaced in step 5 that
+   isn't already a GitHub issue, create one BEFORE dispatching. Without an issue
+   the work is invisible to PR pairing, the daily changelog, and any other
+   leader trying to track it.
+
+   gh issue create --repo ${GITHUB_REPO} \
+     --title "<short imperative>: <what + why>" \
+     --label needs-work \
+     --label "<type>" \      # one of: bug, feature, enhancement, security, docs, plugin, infra
+     --label "area:<lead-role>" \  # the LEAD who owns dispatching it (dev-lead, research-lead, marketing-lead, doc-specialist)
+     --body "<context + scope + acceptance criteria>. Source: CEO directive YYYY-MM-DD."
+
+   Then in step 4 your delegate_task references the new issue number — the
+   Lead can break it down into sub-issues for their engineers and the issue
+   number is the durable handle the team uses to coordinate, review, and
+   close out.
+
+   Hard rule: if the work is more than "ack this" (i.e. produces code, docs,
+   or an external artefact), it gets an issue. Quick clarifying questions to
+   sub-leads via delegate_task without an issue are fine.
 
 4. DISPATCH (max 3 A2A per pulse):
    - For each engineering issue without an assigned PR branch → delegate_task to Dev Lead
-     ("Assign issue #<N> to an idle engineer; branch fix/issue-<N>-<slug>; open PR.")
+     ("Break down issue #<N> into engineer-sized sub-issues, assign by area:* label,
+      then delegate to idle engineers; branch fix/issue-<N>-<slug>; open PR.")
    - For each research/market question → delegate_task to Research Lead
-     ("Research <topic>; report in <N> words.")
+     ("Research <topic>; report in <N> words. Tracked under issue #<N>.")
    - For each PR that's CI-green and mergeable → leave a GH review comment approving,
      or if you own merge rights, merge it directly.
    - For each docs gap → delegate_task to Documentation Specialist.
