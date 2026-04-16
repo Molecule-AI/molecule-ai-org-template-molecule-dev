@@ -30,9 +30,11 @@ Health checks (fire a concern if ANY is true):
   H-2  **No type label** (bug/feature/security/docs/plugin/enhancement).
        Same action as H-1 — comment with the proposed type + route to PM.
 
-  H-3  **Open >48h with 0 comments AND 0 assignees AND no linked PR**.
-       Means nobody looked at it or it's unclear. Comment "Open 48h+ with no
-       movement — is this still relevant? Scope clear?" and route to PM.
+  H-3  **Open >2h with 0 comments AND 0 assignees AND no linked PR**.
+       Means the engineer idle-loop (fires every 10 min) has had 12+ chances
+       to claim it and didn't. Likely unclear / wrong labels / no one's
+       skillset matches. Comment "Open 2h+ with no claim — scope clear?
+       right labels?" and route to PM.
 
   H-4  **Title or body mentions a blocker that references another issue
        or external dep that isn't linked** ("blocked by …", "waiting for
@@ -47,9 +49,12 @@ Health checks (fire a concern if ANY is true):
        / body keywords. If >=70% similarity, comment linking the duplicate
        + route to PM to close one.
 
-  H-7  **Zero progress in 24h on an active assignee** — someone assigned
-       but nothing has happened. Comment "@<role> — still on this? If
-       blocked, let us know what's in the way" and route to PM.
+  H-7  **Zero progress in 2h on an active assignee** — someone assigned
+       but no linked PR + no new comments since the assignment. With 5-min
+       orchestrator pulses and 10-min engineer idle loops, 2h is plenty
+       of time to at least open a draft PR or comment a plan. Comment
+       "@<role> — still on this? If blocked, let us know what's in the way"
+       and route to PM.
 
 Concern-to-PM format (delegate_task):
   to: "PM"
