@@ -112,7 +112,7 @@ Key cron-learnings conventions:
 | `FLY_API_TOKEN` | GitHub Actions + `fly secrets` on `molecule-cp` | Both places, together |
 | `SECRETS_ENCRYPTION_KEY` | molecule-cp | **Cannot rotate** until Phase H KMS envelope lands — see `docs/runbooks/saas-secrets.md` |
 | `WORKOS_API_KEY` | molecule-cp | WorkOS dashboard only |
-| `STRIPE_API_KEY` | molecule-cp | Currently TEST-MODE `sk_test_51TMJEV...`. Flip to live when CEO completes Canadian federal incorporation |
+| `STRIPE_API_KEY` | molecule-cp | Currently TEST-MODE test-mode key (rotated). Flip to live when CEO completes Canadian federal incorporation |
 | `RESEND_API_KEY` | molecule-cp | Resend dashboard |
 | `CP_ADMIN_USER_IDS` | molecule-cp | Comma-separated WorkOS user_ids — currently `user_01KPA3Z3810QEF3HCKRXP2EED9` |
 
