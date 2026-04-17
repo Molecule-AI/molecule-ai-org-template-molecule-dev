@@ -28,6 +28,14 @@ schedules:
     cron_expr: "15,45 * * * *"
     enabled: true
     prompt_file: schedules/hourly-template-fitness-audit.md
+            # #28: every-4h template fitness audit with full inline prompt —
+            # complements the existing every-30min prompt_file variant with a
+            # deeper audit cadence and self-contained prompt that survives a
+            # fresh import even if the prompt_file is missing.
+  - name: Template fitness audit (4h, inline)
+    cron_expr: "0 */4 * * *"
+    enabled: true
+    prompt: "Run template fitness audit: check schedule firing health, system prompt freshness (>30 days = stale), plugin coverage per role, cron coverage for evolution levers (ecosystem-watch, plugin-curation, template-fitness, channel-expansion), and channel gaps. File issues for any drift found. Route audit_summary to PM."
 children:
   - !include ../frontend-engineer/workspace.yaml
   - !include ../backend-engineer/workspace.yaml
