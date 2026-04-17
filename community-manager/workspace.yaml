@@ -9,6 +9,17 @@ tier: 2
 files_dir: community-manager
 canvas: {x: 1150, y: 400}
 plugins: []
+# #625: Discord channel — Community Manager owns the Discord community.
+# Requires DISCORD_WEBHOOK_URL set as a global secret (or workspace secret).
+# Obtain from: Discord Server → Channel → Edit Channel → Integrations → Webhooks
+# → New Webhook → Copy Webhook URL.
+# For inbound slash commands: register a Discord Application, set Interactions
+# Endpoint URL to https://<platform-host>/webhooks/discord
+channels:
+  - type: discord
+    config:
+      webhook_url: ${DISCORD_WEBHOOK_URL}
+    enabled: true
 idle_interval_seconds: 600
 schedules:
   - name: Hourly unanswered sweep
