@@ -9,7 +9,7 @@ files_dir: qa-engineer
             # (in detect mode, not block) catches adversarial test payloads
             # before they slip into production. OA-03 excessive-agency caps
             # prevent runaway test loops.
-plugins: [molecule-skill-code-review, molecule-skill-llm-judge, molecule-compliance]
+plugins: [molecule-skill-code-review, molecule-skill-llm-judge, molecule-compliance, molecule-hitl]
 schedules:
   - name: Code quality audit (every 12h)
     cron_expr: "0 6,18 * * *"
