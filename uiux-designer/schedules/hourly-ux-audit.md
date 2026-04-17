@@ -1,24 +1,73 @@
-Hourly UX code audit of the Molecule AI canvas. Review source code, not screenshots — you cannot run a browser in this container.
+Hourly UX audit of the live Molecule AI canvas using a real browser. You interact with the canvas like a human user — clicking, dragging, typing, navigating — and report actual UX issues.
 
-1. **Review open PRs touching canvas/** — check for UX regressions:
-   ```
-   gh pr list --repo Molecule-AI/molecule-core --state open --json number,title,files | \
-     python3 -c "import json,sys; [print(f'#{p[\"number\"]} {p[\"title\"]}') for p in json.load(sys.stdin) if any('canvas/' in f['path'] for f in p.get('files',[]))]"
-   ```
-   For each: read the diff, check for accessibility (aria-labels, keyboard nav, contrast), consistent dark-theme tokens (zinc-900/950, not hardcoded colors), error/empty/loading states.
+## Setup (run once per session, skip if already done)
 
-2. **Review open issues labeled area:frontend or area:uiux** — leave a `[uiux-agent]` comment with your design opinion (dimensions, colors, interaction spec) so PM + Dev Lead have a concrete spec to approve before engineering starts.
+```python
+# Check if Playwright is ready
+import subprocess, sys
+try:
+    from playwright.sync_api import sync_playwright
+except ImportError:
+    subprocess.run([sys.executable, "-m", "pip", "install", "playwright"], check=True)
+    subprocess.run(["playwright", "install", "chromium"], check=True)
+```
 
-3. **Scan canvas/src/components/ for UX gaps**:
-   - Missing aria-label or role attributes
-   - Click handlers without keyboard equivalents (onKeyDown)
-   - Hardcoded colors instead of theme tokens
-   - Components without loading/error/empty states
-   File ONE focused issue per audit cycle (not a laundry list). Include: file path, line number, what's wrong, exact fix with code snippet.
+## Audit Steps — Use Playwright for EVERY step
 
-4. **Report to Dev Lead** via delegate_task with:
-   - Issues filed this cycle (numbers)
-   - PR UX reviews posted (numbers)
-   - "clean" if nothing found
+Write and run a Python script using `playwright.sync_api` against `http://host.docker.internal:3000`. For each step: navigate, interact, screenshot, and evaluate.
 
-Do NOT attempt to install browsers, puppeteer, playwright, or take screenshots. Your value is design expertise applied to code review, not pixel screenshots.
+### 1. Page Load + First Paint
+- Navigate to the canvas URL
+- Measure load time (should be <3s)
+- Screenshot the initial state
+- Check: does the page render? Any blank screens? Console errors?
+
+### 2. Workspace Cards
+- Count visible workspace cards
+- Click on one card — does the detail panel open?
+- Check: are names readable? Status indicators visible? Tier badges aligned?
+
+### 3. Create Workspace Flow
+- Click "Create Workspace" button (or "+" button)
+- Fill in the form fields: name, template, tier
+- DON'T submit — just verify the form works
+- Check: can you type in every field? Dropdowns open? Validation messages show?
+
+### 4. Drag and Drop
+- Try dragging a workspace card to a new position on the canvas
+- Check: does the card follow the cursor? Does it snap to grid? Does position persist?
+
+### 5. Side Panel Navigation
+- Open a workspace's detail panel
+- Click through each tab (Config, Logs, Memory, etc.)
+- Check: do tabs switch? Content loads? No stale data from previous tab?
+
+### 6. Keyboard Navigation
+- Press Tab to move focus through interactive elements
+- Press Enter/Space to activate buttons
+- Press Escape to close modals/panels
+- Check: visible focus indicator? Logical tab order? Escape works?
+
+### 7. Responsive Layout
+- Resize viewport to 1920x1080, then 1280x720, then 768x1024 (tablet)
+- Screenshot each size
+- Check: does layout adapt? Cards reflow? No horizontal scroll?
+
+### 8. Dark Theme Consistency
+- Check all visible colors against zinc-900/950 background
+- Look for: white backgrounds, hardcoded colors, low-contrast text
+- Screenshot any violations
+
+## Output Format
+
+For each issue found, file ONE GitHub issue with:
+- `[uiux-agent]` tag
+- Screenshot attachment path (save to /tmp/ux-audit/)
+- Exact element selector or description
+- Steps to reproduce
+- Expected vs actual behavior
+- Severity: CRITICAL (blocks usage), HIGH (poor UX), MEDIUM (polish), LOW (nitpick)
+
+Report to Dev Lead via delegate_task with issue numbers.
+
+If the canvas is unreachable or Playwright fails to start, fall back to code review (grep canvas/src/components/ for accessibility gaps). Do NOT produce empty output — always report what you checked and what you found.
