@@ -23,6 +23,15 @@ schedules:
     cron_expr: "8,38 * * * *"
     enabled: true
     prompt_file: schedules/hourly-ecosystem-watch.md
+            # #27: explicit hourly ecosystem-watch with full inline prompt —
+            # ensures the schedule fires with a complete prompt even if the
+            # prompt_file above is missing or contains only a stub.
+            # Cron offset :00 is intentionally different from the prompt_file
+            # variant (:08/:38) to avoid double-firing while both coexist.
+  - name: Ecosystem watch (hourly, inline)
+    cron_expr: "0 * * * *"
+    enabled: true
+    prompt: "Run ecosystem-watch: scan HN, arXiv, GitHub trending, product launches in the AI/developer-tools space. Summarize new signals relevant to Molecule AI's roadmap. Commit findings to memory and surface anything urgent to PM."
 children:
   - !include ../market-analyst/workspace.yaml
   - !include ../technical-researcher/workspace.yaml
