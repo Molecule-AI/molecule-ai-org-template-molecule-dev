@@ -35,5 +35,12 @@ channels:
       webhook_url: ${SLACK_BACKEND_WEBHOOK_URL}
     enabled: true
 idle_interval_seconds: 600
+            # #18: hourly platform health — catches unassigned security issues
+            # and failing CI on open platform branches before they go stale.
+schedules:
+  - name: Hourly platform health check
+    cron_expr: "42 * * * *"
+    enabled: true
+    prompt_file: schedules/hourly-platform-health.md
 initial_prompt_file: initial-prompt.md
 idle_prompt_file: idle-prompt.md
