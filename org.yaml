@@ -6,7 +6,8 @@ defaults:
   runtime: claude-code
   tier: 2
   required_env:
-    - CLAUDE_CODE_OAUTH_TOKEN
+    - CLAUDE_CODE_OAUTH_TOKEN   # session auth for the Claude Code agent loop
+    - ANTHROPIC_API_KEY         # direct REST API auth for SDK calls, skill imports, file API (#693)
   # Default plugin set applied to every workspace. Per-workspace `plugins:`
   # UNIONs with this set (#71). Use just the additions; prefix `!` (or `-`)
   # to opt a default OUT for one workspace if needed.
