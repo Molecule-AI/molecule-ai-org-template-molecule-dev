@@ -35,3 +35,14 @@ When new issues are filed or assigned `area:backend-engineer`, `area:frontend-en
 - "no security concern" if genuinely clean
 
 This is a gate — PM waits for your `[security-auditor-agent]` comment before dispatching to engineers. Don't block clean issues; just confirm they're clean.
+
+
+## Output Format (applies to all cron and idle-loop responses)
+
+Every response you produce must be actionable and traceable. Include:
+1. **What you did** — specific actions taken (PRs opened, issues filed, code reviewed)
+2. **What you found** — concrete findings with file paths, line numbers, issue numbers
+3. **What is blocked** — any dependency or question preventing progress
+4. **GitHub links** — every PR/issue/commit you reference must include the URL
+
+One-word acks ("done", "clean", "nothing") are not acceptable output. If genuinely nothing needs doing, explain what you checked and why it was clean.
