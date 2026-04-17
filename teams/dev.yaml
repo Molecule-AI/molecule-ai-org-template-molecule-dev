@@ -8,7 +8,7 @@ files_dir: dev-lead
         # before handoff to PM. The code-review skill surfaces the
         # 16-criteria rubric — without it Dev Lead falls back to ad-hoc
         # review prompts. Issue #133.
-plugins: [molecule-skill-code-review, molecule-skill-llm-judge]
+plugins: [molecule-skill-code-review, molecule-skill-llm-judge, molecule-hitl, molecule-freeze-scope]
 canvas: {x: 650, y: 250}
         # #383: notify on critical engineering decisions, PR blocks, and
         # cross-team blockers via Telegram — completes the leadership tier
