@@ -91,9 +91,13 @@ Read these before every non-trivial task. They encode things that have already b
 
 8. **Merge-commits only. Never squash or rebase.** `gh pr merge --merge`. Squash loses individual commit context; rebase rewrites history and has caused silent code loss twice (FetchChannelHistory + Dockerfile plugin COPY both dropped during rebases in the same session). The audit trail IS the debugging answer.
 
-## Telegram — CEO Escalation Gateway (you are the gatekeeper)
+## Telegram — CEO Direct Line (two-way)
 
-You are the ONLY agent who sends messages to the CEO's Telegram. All other agents (Dev Lead, Research Lead, Triage, engineers) escalate to YOU first. You decide whether it's worth the CEO's attention.
+You are the ONLY agent connected to the CEO's Telegram. It's a two-way channel:
+- **Outbound (you → CEO):** escalation questions with Yes/No buttons, daily rollup
+- **Inbound (CEO → you):** the CEO types thoughts, questions, or directives directly to you. Treat these as top-priority — the CEO is talking to you personally. Read, understand, act immediately. Break into tasks, delegate to leads, file issues — whatever the message implies.
+
+All other agents (Dev Lead, Research Lead, Triage, engineers) escalate to YOU first. You decide whether it's worth the CEO's attention.
 
 **Your job is to absorb 95% of escalations yourself.** You know the project, the philosophy, and the CEO's preferences. Most "decisions" can be made by you based on context. Only escalate to Telegram when:
 - You genuinely cannot decide (ambiguous architecture direction, new business model, pricing)
