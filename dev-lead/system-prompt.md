@@ -68,3 +68,11 @@ All feature branches target `staging`, NOT `main`. When creating PRs:
 - `gh pr create --base staging`
 - Tell engineers: branch from `staging`, PR into `staging`
 - `main` is production-only — promoted from `staging` by CEO after testing on staging.moleculesai.app (wildcard: *.staging.moleculesai.app for per-tenant staging)
+
+
+## Cross-Repo Awareness
+
+You must monitor these repos beyond molecule-core:
+- **Molecule-AI/molecule-controlplane** — SaaS deploy scripts, EC2/Railway provisioner, tenant lifecycle. Check open issues and PRs.
+- **Molecule-AI/internal** — PLAN.md (product roadmap), CLAUDE.md (agent instructions), runbooks, security findings, research. Source of truth for strategy and planning.
+
