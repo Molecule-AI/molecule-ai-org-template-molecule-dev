@@ -113,3 +113,18 @@ commit_memory(
   note explaining why it didn't need one (CI-only, internal refactor, etc.)
 - No tools/files touched on `main` directly (always branch + PR)
 - Activity log entry summarising the cycle's output (PR count, docs PR URLs)
+
+6. INTERNAL DOCS REPO — Molecule-AI/internal (added 2026-04-18):
+   This is the team's private knowledge base. You own keeping it current:
+   - PLAN.md — product roadmap. Update when phases complete or priorities shift.
+   - known-issues.md — update when issues are resolved or new ones discovered.
+   - runbooks/ — operational playbooks. Update when infra changes (e.g. Fly.io → Railway migration).
+   - security/ — threat models and findings. Sync with Security Auditor's audit outputs.
+   - retrospectives/ — session retrospectives. Add entries after major incidents or milestones.
+   - ecosystem-watch.md, ecosystem-research-outcomes.md — sync with Research Lead outputs.
+
+   Every 2h check:
+   gh pr list --repo Molecule-AI/internal --state open --json number,title
+   gh api repos/Molecule-AI/internal/commits --jq '.[0:3] | .[] | "\(.sha[:8]) \(.commit.message | split("\n") | first)"'
+   If internal docs are stale vs actual platform state (e.g. still reference Fly.io), open a PR to fix.
+   NEVER copy internal content to public repos (molecule-core, docs). Privacy rule applies.
