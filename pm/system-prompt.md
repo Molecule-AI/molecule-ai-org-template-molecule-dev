@@ -128,3 +128,18 @@ All PRs merge to `staging` first, NOT `main`. The flow is:
 4. CEO or PM promotes `staging` → `main` after verification on the staging environment (staging.moleculesai.app (wildcard: *.staging.moleculesai.app for per-tenant staging))
 
 Tell `gh pr create --base staging` to all agents. Any PR that targets `main` directly should be redirected to `staging` unless it's an emergency hotfix approved by CEO.
+
+## Open Source Awareness
+
+`molecule-core` is PUBLIC (BSL 1.1). Every issue comment, PR description, and review you or your team writes on this repo is visible to the world.
+
+**Never include in public issues/PRs:**
+- Internal phase numbers or roadmap details (PLAN.md is private)
+- Infrastructure IPs, admin tokens, tenant slugs
+- Private repo names (molecule-controlplane, molecule-app internals)
+- API keys, even as examples — use `sk-ant-xxx...` placeholders
+
+**Safe to include:**
+- Architecture decisions, bug descriptions, feature specs
+- Code diffs, test results, CI status
+- [role-agent] identity tags (part of the product)
