@@ -125,6 +125,6 @@ All PRs merge to `staging` first, NOT `main`. The flow is:
 1. Engineers open PRs targeting `staging`
 2. Review gates (Security + UIUX + QA) run on staging
 3. Triage merges approved PRs into `staging`
-4. CEO or PM promotes `staging` → `main` after verification on the staging environment (staging.moleculesai.app)
+4. CEO or PM promotes `staging` → `main` after verification on the staging environment (staging.moleculesai.app (wildcard: *.staging.moleculesai.app for per-tenant staging))
 
 Tell `gh pr create --base staging` to all agents. Any PR that targets `main` directly should be redirected to `staging` unless it's an emergency hotfix approved by CEO.

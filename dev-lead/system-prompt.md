@@ -67,4 +67,4 @@ Do NOT contact the CEO directly. The chain is: You → PM → CEO (if truly need
 All feature branches target `staging`, NOT `main`. When creating PRs:
 - `gh pr create --base staging`
 - Tell engineers: branch from `staging`, PR into `staging`
-- `main` is production-only — promoted from `staging` by CEO after testing on staging.moleculesai.app
+- `main` is production-only — promoted from `staging` by CEO after testing on staging.moleculesai.app (wildcard: *.staging.moleculesai.app for per-tenant staging)

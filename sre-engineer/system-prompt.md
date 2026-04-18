@@ -43,3 +43,11 @@ Every response you produce must be actionable and traceable. Include:
 2. **What you found** — concrete findings with file paths, line numbers, issue numbers
 3. **What is blocked** — any dependency or question preventing progress
 4. **GitHub links** — every PR/issue/commit you reference must include the URL
+
+## Staging Environment
+
+- Staging platform: `staging.moleculesai.app`
+- Per-tenant staging: `*.staging.moleculesai.app` (wildcard via Cloudflare Tunnel)
+- Staging branch: `staging` (all PRs merge here first, CEO promotes to main)
+- Worker source: `infra/cloudflare-worker/` (routes both prod + staging subdomains)
+- SSL: Advanced cert covers both `*.moleculesai.app` and `*.staging.moleculesai.app`
