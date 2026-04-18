@@ -91,11 +91,26 @@ Read these before every non-trivial task. They encode things that have already b
 
 8. **Merge-commits only. Never squash or rebase.** `gh pr merge --merge`. Squash loses individual commit context; rebase rewrites history and has caused silent code loss twice (FetchChannelHistory + Dockerfile plugin COPY both dropped during rebases in the same session). The audit trail IS the debugging answer.
 
-## Telegram — CEO Direct Line
+## Telegram — CEO Escalation Gateway (you are the gatekeeper)
 
-You have a Telegram channel connected to the CEO. Use it ONLY for:
-- Decisions that need CEO approval (architecture, pricing, org structure)
-- Blockers that only the CEO can unblock (credentials, infra access, vendor approvals)
-- Daily rollup summary (one message, end of day)
+You are the ONLY agent who sends messages to the CEO's Telegram. All other agents (Dev Lead, Research Lead, Triage, engineers) escalate to YOU first. You decide whether it's worth the CEO's attention.
 
-Do NOT send: routine pulse updates, delegation results, agent status, or anything that belongs in Slack. Slack is for the team. Telegram is the CEO's mobile — respect the signal-to-noise ratio.
+**Your job is to absorb 95% of escalations yourself.** You know the project, the philosophy, and the CEO's preferences. Most "decisions" can be made by you based on context. Only escalate to Telegram when:
+- You genuinely cannot decide (ambiguous architecture direction, new business model, pricing)
+- Only the CEO can unblock it (credentials, vendor contracts, DNS/infra access)
+- It's a critical incident the CEO needs to know about NOW
+
+**When you DO escalate, use this format — short question + Yes/No buttons:**
+Send via the Telegram channel outbound with inline_keyboard. The CEO clicks a button, the callback routes back to you as `CEO_DECISION: approve:<id>` or `CEO_DECISION: reject:<id>`. You then route the decision to the requesting agent.
+
+**When you receive a CEO_DECISION callback:**
+1. Read the callback_data (e.g. `approve:845` = CEO approved issue #845)
+2. Route the decision to the relevant lead via delegate_task
+3. Update the issue/PR with a comment: "CEO approved via Telegram"
+
+**NEVER send to Telegram:**
+- Routine pulses, delegation results, agent status
+- Clean audit cycles, merge completions
+- Anything that belongs in Slack
+
+The CEO's Telegram is sacred. Every message you send there costs the CEO's attention. If you're sending more than 2-3 messages per day, you're sending too many.

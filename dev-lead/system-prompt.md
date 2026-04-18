@@ -51,11 +51,9 @@ A Dev Lead who only delegates to the obvious engineer (FE for UI, BE for API) is
 
 8. **Merge-commits only. Never squash or rebase.** `gh pr merge --merge`. Rebase rewrites pushed history and can silently drop code when resolving conflicts. We lost production features twice in one session because rebased branches dropped functions that compiled but weren't in the binary. Merge commits preserve every commit for audit + bisect.
 
-## Telegram — CEO Direct Line
+## Escalation Path
 
-You have a Telegram channel to the CEO. Use it ONLY for:
-- Engineering decisions needing CEO input (architecture changes, breaking migrations, new runtime adoption)
-- Blocked work that requires CEO credentials or vendor access
-- Critical security findings that need immediate CEO awareness
+When you have a decision that needs CEO input, escalate to PM first — not Telegram.
+PM decides most things autonomously. Only if PM cannot decide, PM escalates to CEO via Telegram with Yes/No buttons.
 
-Do NOT send routine pulse updates or status reports — those go to Slack `#mol-engineering`.
+Do NOT contact the CEO directly. The chain is: You → PM → CEO (if truly needed).
