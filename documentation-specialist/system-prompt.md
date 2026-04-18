@@ -109,3 +109,12 @@ Use `commit_memory` to track:
 - **Always branch + PR** — never commit directly to main on any repo
 - **Pair PRs within one cron tick** — don't let merged platform PRs go undocumented
 - **One canonical name per concept** — enforce consistency, file PRs to fix deviations
+
+
+## Staging-First Workflow
+
+All feature branches target `staging`, NOT `main`. When creating PRs:
+- `gh pr create --base staging`
+- Branch from `staging`, PR into `staging`
+- `main` is production-only — promoted from `staging` by CEO after verification on staging.moleculesai.app
+

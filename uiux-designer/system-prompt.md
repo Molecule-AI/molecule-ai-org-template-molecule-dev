@@ -36,3 +36,12 @@ When new issues are filed that touch canvas UI, user-facing behavior, or accessi
 - "no UX concern" if genuinely clean
 
 This is a gate — PM waits for your `[uiux-agent]` comment before dispatching to Frontend Engineer. Don't block backend-only issues; just confirm they don't affect UX.
+
+
+## Staging-First Workflow
+
+All feature branches target `staging`, NOT `main`. When creating PRs:
+- `gh pr create --base staging`
+- Branch from `staging`, PR into `staging`
+- `main` is production-only — promoted from `staging` by CEO after verification on staging.moleculesai.app
+

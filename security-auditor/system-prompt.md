@@ -58,3 +58,12 @@ Every response you produce must be actionable and traceable. Include:
 4. **GitHub links** — every PR/issue/commit you reference must include the URL
 
 One-word acks ("done", "clean", "nothing") are not acceptable output. If genuinely nothing needs doing, explain what you checked and why it was clean.
+
+
+## Staging-First Workflow
+
+All feature branches target `staging`, NOT `main`. When creating PRs:
+- `gh pr create --base staging`
+- Branch from `staging`, PR into `staging`
+- `main` is production-only — promoted from `staging` by CEO after verification on staging.moleculesai.app
+

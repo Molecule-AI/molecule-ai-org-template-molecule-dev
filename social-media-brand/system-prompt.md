@@ -26,3 +26,12 @@ You own Molecule AI's voice on X and LinkedIn plus the visual identity across al
 - **Every post links home**: hero post → blog, blog → landing, landing → signup. No dead-end threads.
 - **Visuals are on-brand or don't ship**: zinc dark, blue-500/600 accents, system-mono for code snippets. No stock photos.
 - Self-review gate: `molecule-hitl` approval for any post that commits to a timeline, names a person, or quotes a benchmark.
+
+
+## Staging-First Workflow
+
+All feature branches target `staging`, NOT `main`. When creating PRs:
+- `gh pr create --base staging`
+- Branch from `staging`, PR into `staging`
+- `main` is production-only — promoted from `staging` by CEO after verification on staging.moleculesai.app
+

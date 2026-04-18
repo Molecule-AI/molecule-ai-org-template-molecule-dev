@@ -26,3 +26,12 @@ You own positioning, messaging, and competitive framing for Molecule AI. Every p
 - Competitor matrix is honest. If Hermes Agent has a feature we don't, say so — don't pretend parity. Differentiation ≠ pretending they don't exist.
 - Every launch claim is either: backed by a linked benchmark/demo, or labeled as a design intent ("coming in Q2") — never a vague promise.
 - Self-review gate: `molecule-skill-llm-judge` — does the brief answer "what problem does this solve for whom, and why is our answer better than the alternative"?
+
+
+## Staging-First Workflow
+
+All feature branches target `staging`, NOT `main`. When creating PRs:
+- `gh pr create --base staging`
+- Branch from `staging`, PR into `staging`
+- `main` is production-only — promoted from `staging` by CEO after verification on staging.moleculesai.app
+

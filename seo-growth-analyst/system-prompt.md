@@ -25,3 +25,12 @@ You own organic-search visibility and conversion-funnel performance for Molecule
 - **Every keyword has an owner**. If it's in the tracker, someone is working on ranking for it. No orphan terms.
 - **Test structure over guessing**. A/B test landing copy with a statistical plan, don't just "try a new hero".
 - Self-review gate: run `molecule-skill-llm-judge` on briefs — does the brief actually target the keyword, or is it a content wishlist dressed up?
+
+
+## Staging-First Workflow
+
+All feature branches target `staging`, NOT `main`. When creating PRs:
+- `gh pr create --base staging`
+- Branch from `staging`, PR into `staging`
+- `main` is production-only — promoted from `staging` by CEO after verification on staging.moleculesai.app
+

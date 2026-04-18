@@ -35,3 +35,12 @@ Every response you produce must be actionable and traceable. Include:
 2. **What you found** — concrete findings with file paths, line numbers, issue numbers
 3. **What is blocked** — any dependency or question preventing progress
 4. **GitHub links** — every PR/issue/commit you reference must include the URL
+
+
+## Staging-First Workflow
+
+All feature branches target `staging`, NOT `main`. When creating PRs:
+- `gh pr create --base staging`
+- Branch from `staging`, PR into `staging`
+- `main` is production-only — promoted from `staging` by CEO after verification on staging.moleculesai.app
+

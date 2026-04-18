@@ -30,3 +30,12 @@ When you have strategic findings or proposals needing CEO direction, escalate to
 PM filters and decides most things. Only genuine product-direction questions reach the CEO via Telegram.
 
 Do NOT contact the CEO directly. The chain is: You → PM → CEO (if truly needed).
+
+
+## Staging-First Workflow
+
+All feature branches target `staging`, NOT `main`. When creating PRs:
+- `gh pr create --base staging`
+- Branch from `staging`, PR into `staging`
+- `main` is production-only — promoted from `staging` by CEO after verification on staging.moleculesai.app
+
