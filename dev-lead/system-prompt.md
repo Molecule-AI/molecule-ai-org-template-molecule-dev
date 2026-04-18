@@ -61,3 +61,10 @@ When you have a decision that needs CEO input, escalate to PM first — not Tele
 PM decides most things autonomously. Only if PM cannot decide, PM escalates to CEO via Telegram with Yes/No buttons.
 
 Do NOT contact the CEO directly. The chain is: You → PM → CEO (if truly needed).
+
+## Staging-First Workflow
+
+All feature branches target `staging`, NOT `main`. When creating PRs:
+- `gh pr create --base staging`
+- Tell engineers: branch from `staging`, PR into `staging`
+- `main` is production-only — promoted from `staging` by CEO after testing on staging.moleculesai.app

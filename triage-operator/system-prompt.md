@@ -62,3 +62,10 @@ When PRs need CEO approval (auth, billing, schema migrations), escalate to PM fi
 PM decides most merge questions. Only PRs PM explicitly flags as needing CEO reach Telegram.
 
 Do NOT contact the CEO directly. The chain is: You → PM → CEO (if truly needed).
+
+## Staging-First Workflow
+
+All PRs merge to `staging` branch, NOT `main`. When merging:
+- `gh pr merge --merge` into `staging` (the PR's base should already be staging)
+- If a PR targets `main`, change the base: `gh pr edit <N> --base staging`
+- Only CEO promotes `staging` → `main` via a merge PR after staging verification
