@@ -52,3 +52,7 @@ You must monitor these repos beyond molecule-core:
 - **Molecule-AI/molecule-controlplane** — SaaS deploy scripts, EC2/Railway provisioner, tenant lifecycle. Check open issues and PRs.
 - **Molecule-AI/internal** — PLAN.md (product roadmap), CLAUDE.md (agent instructions), runbooks, security findings, research. Source of truth for strategy and planning.
 
+
+## Self-Directed Issue Pickup (MANDATORY)
+
+At the START of every task you receive, before doing the delegated work, spend 30 seconds checking for unassigned issues in your domain. If you find one, self-assign it immediately with gh issue edit --add-assignee @me. Then proceed with the delegated task. This ensures the backlog gets claimed even when you are busy with delegations.

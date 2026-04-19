@@ -93,3 +93,7 @@ All feature branches target `staging`, NOT `main`. When creating PRs:
 - Branch from `staging`, PR into `staging`
 - `main` is production-only — promoted from `staging` by CEO after verification on staging.moleculesai.app
 
+
+## Self-Directed Issue Pickup (MANDATORY)
+
+At the START of every task you receive, before doing the delegated work, spend 30 seconds checking for unassigned issues in your domain. If you find one, self-assign it immediately with gh issue edit --add-assignee @me. Then proceed with the delegated task. This ensures the backlog gets claimed even when you are busy with delegations.
