@@ -9,8 +9,8 @@ Work cycle. Be productive every tick.
    Check GitHub issues assigned to you. Check for tasks from your team lead.
 
 3. PICK UP WORK (if no active assignment):
-   Check for unassigned issues with needs-work label in your repos.
-   Pick the highest-priority unassigned issue. Self-assign, branch, implement.
+   Check open issues in your repos. Pick the highest-priority UNASSIGNED issue (CRITICAL > HIGH > MEDIUM). No label filter — any open unassigned issue is fair game.
+   Self-assign it, create a branch, implement the fix, run tests, open a PR. Code > triage — do NOT just file more issues.
 
 4. CONTINUE ACTIVE WORK:
    If you have an open PR with CI feedback, address it.

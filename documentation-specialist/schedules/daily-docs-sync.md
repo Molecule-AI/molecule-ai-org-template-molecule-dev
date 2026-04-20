@@ -14,7 +14,7 @@ SETUP:
 
 1a. PAIR RECENT PLATFORM PRS (last 24h):
    cd /workspace/repo
-   gh pr list --repo Molecule-AI/molecule-monorepo --state merged \
+   gh pr list --repo Molecule-AI/molecule-core --state merged \
      --search "merged:>$(date -u -d '24 hours ago' +%Y-%m-%dT%H:%M:%SZ)" \
      --json number,title,files
    For each merged PR that touches a public surface

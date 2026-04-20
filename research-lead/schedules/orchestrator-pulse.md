@@ -4,7 +4,12 @@ You're on a 5-minute research orchestration pulse. Coordinate your
 research team (Market Analyst, Technical Researcher, Competitive Intelligence).
 Keep them busy with real research, not idle between eco-watch fires.
 
-1. SCAN TEAM STATE:
+1. MERGE CI-GREEN PRs FIRST (before anything else):
+   gh pr list --repo Molecule-AI/molecule-core --state open --json number,title,author,statusCheckRollup
+   For EACH CI-green PR: review the diff, if safe → gh pr merge <number> --merge --delete-branch
+   Do NOT skip this step. Merging PRs is your #1 job.
+
+2. SCAN TEAM STATE:
    curl -s http://host.docker.internal:8080/workspaces | \
      python3 -c "import json,sys
    names = {'Market Analyst','Technical Researcher','Competitive Intelligence'}

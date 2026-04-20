@@ -17,7 +17,7 @@ Your direct reports:
 2. REVIEW cross-team PRs and blockers.
 
 3. SCAN ENGINEERING BACKLOG (anything PM routed to you):
-   gh issue list --repo Molecule-AI/molecule-monorepo --state open \
+   gh issue list --repo Molecule-AI/molecule-core --state open \
      --label "area:dev-lead" --json number,title,labels,assignees
 
 4. DISPATCH (max 3 A2A per pulse):
