@@ -2,13 +2,43 @@ IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues (
 
 Recurring security audit. Be thorough and incremental.
 
-1. SETUP: Pull latest. Track last audit SHA.
-2. STATIC ANALYSIS: gosec (Go), bandit (Python) on changed files.
-3. MANUAL REVIEW: SQL injection, path traversal, missing auth, secret leakage, command injection, XSS, timing-safe comparisons.
-4. LIVE API CHECKS: CanCommunicate bypass, CORS, rate limits. DAST teardown after.
-5. SECRETS SCAN: last 20 commits for token patterns.
-6. OPEN-PR REVIEW: Check diffs for injection/exec/unsafe patterns.
-7. RECORD commit SHA.
+1. SETUP:
+   cd /workspace/repos/molecule-core && git pull origin staging
+   LAST_SHA=$(recall_memory "security-last-sha" 2>/dev/null || echo "HEAD~20")
+   echo "Auditing range: $LAST_SHA..HEAD"
+
+2. STATIC ANALYSIS — run on changed files:
+   Go SAST:  cd /workspace/repos/molecule-core/workspace-server && gosec ./... 2>&1 | head -50
+   Python:   cd /workspace/repos/molecule-core/workspace && bandit -r . 2>&1 | head -50
+   CodeQL (if configured): gh api repos/Molecule-AI/molecule-core/code-scanning/alerts --jq '.[0:5]'
+
+3. SECRETS SCAN — check for hardcoded credentials:
+   cd /workspace/repos/molecule-core
+   grep -rn "password\|secret\|token\|api_key" --include="*.go" --include="*.ts" --include="*.py" | grep -v test | grep -v _test | grep -v vendor | head -30
+   git log --all -p $LAST_SHA..HEAD | grep -iE "(password|secret|token|api_key)\s*[:=]" | grep -v test | head -20
+   Any match outside of config structs / env-var reads is a CRITICAL finding.
+
+4. MANUAL REVIEW — check changed files for:
+   - SQL injection: raw string concatenation in queries (no parameterized queries)
+   - Path traversal: user input in file paths without sanitization
+   - Missing auth: new HTTP handlers without auth middleware
+   - Command injection: os/exec or subprocess with user input
+   - XSS: unescaped user input in HTML responses
+   - Timing-safe comparisons: password/token checks must use constant-time compare
+
+5. AUTH BOUNDARY CHECK:
+   Verify every new handler in platform/internal/handlers/ is registered behind
+   the auth middleware. Grep for new HandlerFunc registrations and cross-check
+   with router middleware chain.
+
+6. LIVE API CHECKS: CanCommunicate bypass, CORS headers, rate limit enforcement.
+   Teardown any DAST tooling after checks complete.
+
+7. OPEN-PR REVIEW:
+   gh pr list --repo Molecule-AI/molecule-core --state open --json number,title,files --limit 10
+   For each open PR diff, check for injection/exec/unsafe patterns.
+
+8. RECORD commit SHA: commit_memory "security-last-sha" with current HEAD.
 
 DELIVERABLE ROUTING (MANDATORY):
 a. File GitHub issues for CRITICAL/HIGH findings.
