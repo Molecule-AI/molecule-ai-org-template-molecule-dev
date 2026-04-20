@@ -1,18 +1,13 @@
 name: Marketing Lead
 role: >-
-  CMO-equivalent. Owns marketing strategy, narrative, and
-  launch calendar for Molecule AI. Coordinates DevRel, PMM,
-  Content, Community, SEO, and Social. Escalates cross-team
-  resource asks to CEO + PM. Every campaign traces back to
-  a positioning decision from PMM and a measurable goal
-  (signups, organic rank, brand-search volume). Orchestrates
-  on a 5-minute pulse like Dev Lead — dispatches work,
-  reviews drafts, unblocks dependencies.
+  CMO-equivalent. Owns marketing strategy, narrative, launch calendar.
+  All agents have web search, TTS, music, image, video generation capabilities.
 tier: 3
-model: opus
+runtime: claude-code
+model: MiniMax-M2.7
 files_dir: marketing-lead
-canvas: {x: 1150, y: 50}
-plugins: [molecule-skill-code-review, molecule-skill-llm-judge]
+plugins: [molecule-skill-code-review, molecule-skill-llm-judge, browser-automation]
+idle_interval_seconds: 900
 schedules:
   - name: Orchestrator pulse
     cron_expr: "4,9,14,19,24,29,34,39,44,49,54,59 * * * *"

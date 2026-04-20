@@ -1,3 +1,5 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 Cross-repo docs watch. Fire every 2 hours. Mandate: keep documentation in
 lockstep with the entire Molecule-AI/* GitHub org (40+ repos), NOT just
 molecule-core. Updates that match repository state are owned by Doc Specialist

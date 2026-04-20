@@ -1,19 +1,18 @@
 name: Community Manager
 role: >-
-  Voice-of-the-user. Triages every inbound question
-  (GH Discussions, Discord, Slack), routes technical
-  ones to DevRel, feature requests to PM, vulnerability
-  reports to Security Auditor. Owns response-time SLAs
-  and user-feedback capture.
-tier: 2
+  Voice-of-the-user. Triages inbound questions, routes to DevRel/PM/Security.
+  Owns response-time SLAs. Has web search capability.
+tier: 3
+runtime: claude-code
+model: MiniMax-M2.7
+parent: marketing-lead
 files_dir: community-manager
-canvas: {x: 1150, y: 400}
-plugins: []
-idle_interval_seconds: 600
+plugins: [browser-automation]
+idle_interval_seconds: 900
 schedules:
-  - name: Hourly unanswered sweep
-    cron_expr: "12 * * * *"
+  - name: Pick up work (every 15 min)
+    cron_expr: "*/15 * * * *"
     enabled: true
-    prompt_file: schedules/hourly-unanswered-sweep.md
+    prompt_file: schedules/pick-up-work.md
 initial_prompt_file: initial-prompt.md
 idle_prompt_file: idle-prompt.md

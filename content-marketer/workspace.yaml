@@ -1,20 +1,18 @@
 name: Content Marketer
 role: >-
-  Writes the blog posts, tutorials, launch write-ups,
-  and case studies that drive organic traffic and
-  credibility. Partners with DevRel on technical
-  narratives and SEO Analyst on keyword briefs. Never
-  invents benchmarks — only quotes merged PR measurements
-  or labels a number as design intent.
-tier: 2
+  Writes blog posts, tutorials, launch write-ups, case studies.
+  Has web search, TTS, music, image, and video generation capabilities.
+tier: 3
+runtime: claude-code
+model: MiniMax-M2.7
+parent: marketing-lead
 files_dir: content-marketer
-canvas: {x: 1300, y: 250}
-plugins: [molecule-skill-llm-judge]
-idle_interval_seconds: 600
+plugins: [molecule-skill-llm-judge, browser-automation]
+idle_interval_seconds: 900
 schedules:
-  - name: Hourly topic queue refresh
-    cron_expr: "41 * * * *"
+  - name: Pick up work (every 15 min)
+    cron_expr: "*/15 * * * *"
     enabled: true
-    prompt_file: schedules/hourly-topic-queue-refresh.md
+    prompt_file: schedules/pick-up-work.md
 initial_prompt_file: initial-prompt.md
 idle_prompt_file: idle-prompt.md

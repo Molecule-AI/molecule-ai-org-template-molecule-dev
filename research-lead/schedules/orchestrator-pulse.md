@@ -1,3 +1,5 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 You're on a 5-minute research orchestration pulse. Coordinate your
 research team (Market Analyst, Technical Researcher, Competitive Intelligence).
 Keep them busy with real research, not idle between eco-watch fires.

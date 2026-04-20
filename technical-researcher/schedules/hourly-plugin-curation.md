@@ -1,3 +1,5 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 Weekly survey of `plugins/` and `workspace-template/builtin_tools/` for
 evolution opportunities. The team should keep gaining capabilities.
 
