@@ -81,6 +81,5 @@ defaults:
 
 workspaces:
   - !include teams/pm.yaml
-  - !include teams/marketing.yaml
 
 template_schema_version: 1
