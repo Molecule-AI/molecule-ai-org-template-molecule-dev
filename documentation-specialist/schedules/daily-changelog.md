@@ -1,3 +1,5 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 Daily public CHANGELOG. Fire at 23:50 UTC. Aggregates every merged PR
 across the entire Molecule-AI/* org for the calendar day (00:00–23:50 UTC)
 and publishes to the docs site as a customer-facing CHANGELOG entry.

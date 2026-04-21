@@ -1,4 +1,9 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 Recurring code quality audit. Be thorough and incremental.
+NOTE: QA Engineer 2 covers molecule-controlplane + molecule-tenant-proxy.
+QA Engineer 3 covers molecule-app + docs. You own molecule-core as primary scope.
+Coordinate to avoid duplicate coverage across the org.
 
 1. Pull latest: cd /workspace/repo && git pull
 2. Check what you audited last time: use search_memory("qa audit") to recall prior findings

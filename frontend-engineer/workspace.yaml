@@ -19,6 +19,23 @@ files_dir: frontend-engineer
             # #310: molecule-skill-llm-judge — gate own PR against issue body
             # before requesting review ("shipped the wrong thing" early catch).
 plugins: [molecule-skill-code-review, molecule-skill-llm-judge]
+            # #21: Telegram delivery for hourly canvas health cron — findings
+            # from the :32 schedule now surface to the user instead of landing
+            # silently in memory. Reuses existing TELEGRAM_BOT_TOKEN +
+            # TELEGRAM_CHAT_ID (zero new secrets).
+channels:
+  - type: telegram
+    config:
+      bot_token: ${TELEGRAM_BOT_TOKEN}
+      chat_id: ${TELEGRAM_CHAT_ID}
+    enabled: true
 idle_interval_seconds: 600
+            # #17: hourly canvas health — catches failing CI on canvas PRs,
+            # 'use client' drift, and npm build regressions before they land.
+schedules:
+  - name: Hourly canvas health check
+    cron_expr: "32 * * * *"
+    enabled: true
+    prompt_file: schedules/hourly-canvas-health.md
 initial_prompt_file: initial-prompt.md
 idle_prompt_file: idle-prompt.md

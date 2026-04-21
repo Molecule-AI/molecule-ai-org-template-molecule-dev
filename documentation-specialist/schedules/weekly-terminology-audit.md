@@ -1,3 +1,5 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 Weekly audit of documentation freshness and terminology consistency.
 
 1. STALE PAGE DETECTION:

@@ -1,3 +1,5 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 Daily survey for new agent-infra / AI-agent projects worth tracking.
 
 1. Pull docs/ecosystem-watch.md to know what's already tracked.

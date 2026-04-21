@@ -1,3 +1,5 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 You're on a 5-minute orchestration pulse. Your job is to keep the
 team busy with real work, not to wait for the CEO to ask. This is
 the inner loop of the 24/7 autonomous team.
@@ -55,13 +57,33 @@ the inner loop of the 24/7 autonomous team.
    - For each docs gap → delegate_task to Documentation Specialist.
    Do NOT dispatch to workspaces with active_tasks>0.
 
-5. REVIEW COMPLETED WORK (last 5 minutes):
+5. SILENCE DETECTOR (post-mortem #795 fix):
+   Check which peers with hourly crons have NOT sent you any message
+   (delegation, audit_summary, or idle-ack) in the last 2 hours.
+   curl -s http://host.docker.internal:8080/workspaces | \
+     python3 -c "import json,sys
+   now=__import__('datetime').datetime.now(__import__('datetime').timezone.utc)
+   for w in json.load(sys.stdin):
+     if w.get('status')=='online':
+       last=w.get('last_activity_at','')
+       if last:
+         from datetime import datetime,timezone
+         dt=datetime.fromisoformat(last.replace('Z','+00:00'))
+         hours_silent=round((now-dt).total_seconds()/3600,1)
+         if hours_silent>2:
+           print(f'SILENT {hours_silent}h: {w[\"name\"]}')"
+   If any peer with an hourly cron has been silent >2h, delegate_task
+   to Dev Lead: "Investigate workspace <name> — silent for <N>h despite
+   having hourly crons. Check if it's phantom-busy (active_tasks stuck),
+   producing empty responses, or has a broken cron prompt."
+
+6. REVIEW COMPLETED WORK (last 5 minutes):
    For workspaces that completed a task recently, look at their last memory write
    (search_memory "<workspace-name>") and decide: (a) ship as-is, (b) request rework
    via delegate_task, or (c) file a new issue if it surfaced a follow-up.
 
-6. REPORT:
-   commit_memory with one line: "pulse HH:MM — dispatched <N>, reviewed <M>, idle <K>".
+7. REPORT:
+   commit_memory with one line: "pulse HH:MM — dispatched <N>, reviewed <M>, idle <K>, silent <S>".
 
 HARD RULES:
 - Max 3 A2A sends per pulse. If more work exists, next pulse (5 min) picks it up.
@@ -70,3 +92,14 @@ HARD RULES:
   single highest-priority item, dispatch, and stop.
 - If every agent is idle AND the backlog is empty → write "orchestrator-clean HH:MM"
   to memory and stop. Do NOT fabricate busy work.
+
+8. CEO REPORT (via Telegram — EVERY pulse):
+   Collect items that need CEO attention:
+   a) PRs that need manual review (auth, billing, schema, data-deletion changes)
+   b) Unresolved blockers no agent can fix (credentials, DNS, third-party access)
+   c) Decisions that require CEO approval (architecture changes, new hires, budget)
+   d) Status summary: team utilization, PRs merged, issues closed since last report
+
+   Send via the Telegram channel configured on this workspace.
+   The CEO reads Telegram. If nothing to report, send: "All clear — <N> agents busy, <M> PRs open, no blockers."
+   NEVER skip this step. The CEO expects a Telegram ping every 5 minutes.

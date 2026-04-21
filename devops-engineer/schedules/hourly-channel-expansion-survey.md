@@ -1,3 +1,5 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 Weekly survey of channel integrations (Telegram, Slack, Discord, email,
 webhooks). The team should grow its external comms surface where useful,
 not stay locked at "PM-only Telegram".

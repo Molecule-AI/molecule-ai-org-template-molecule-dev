@@ -5,8 +5,10 @@ description: AI agent company for building Molecule AI
 defaults:
   runtime: claude-code
   tier: 2
-  required_env:
-    - CLAUDE_CODE_OAUTH_TOKEN
+  # required_env removed — PR #1031 eliminated the CLAUDE_CODE_OAUTH_TOKEN
+  # requirement; workspaces authenticate via the platform token flow.
+  # ANTHROPIC_API_KEY is set via workspace .env, not as a required_env constraint.
+
   # Default plugin set applied to every workspace. Per-workspace `plugins:`
   # UNIONs with this set (#71). Use just the additions; prefix `!` (or `-`)
   # to opt a default OUT for one workspace if needed.
@@ -46,22 +48,22 @@ defaults:
   # prompts, so adding/renaming roles is a config-only change.
   category_routing:
     # Defensive findings — code review, SAST, missing patch class.
-    security: [Backend Engineer, DevOps Engineer]
+    security: [Backend Engineer, Backend Engineer 2, Backend Engineer 3, DevOps Engineer]
     # Adversarial findings — live exploit, container escape, supply-chain
     # CVE, cross-agent prompt injection. Routed through Security Auditor
     # first so the patch class is named before paging the implementing
     # engineer; most red-team findings need both an immediate mitigation
     # (DevOps) and a structural fix (Security Auditor + Backend).
-    offensive: [Security Auditor, Backend Engineer, DevOps Engineer]
-    ui: [Frontend Engineer]
-    ux: [Frontend Engineer]
-    infra: [DevOps Engineer]
+    offensive: [Security Auditor, Security Auditor 2, Backend Engineer, DevOps Engineer]
+    ui: [Frontend Engineer, Frontend Engineer 2, Frontend Engineer 3]
+    ux: [Frontend Engineer, Frontend Engineer 2]
+    infra: [DevOps Engineer, Platform Engineer, SRE Engineer]
     # Cloud-services findings (Vercel/Fly/GHCR/Upptime) — failed deploy,
     # broken health check, expired cert, increased error rate, runaway
     # cost. Routed to DevOps first (operate the platform) and Backend
     # second (most cloud regressions trace back to a backend deploy).
-    cloud: [DevOps Engineer, Backend Engineer]
-    qa: [QA Engineer]
+    cloud: [DevOps Engineer, Platform Engineer, SRE Engineer, Backend Engineer]
+    qa: [QA Engineer, QA Engineer 2, QA Engineer 3]
     performance: [Backend Engineer]
     docs: [Documentation Specialist]
     mixed: [Dev Lead]
