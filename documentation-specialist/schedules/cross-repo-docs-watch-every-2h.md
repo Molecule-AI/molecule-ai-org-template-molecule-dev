@@ -1,9 +1,3 @@
-PRIORITY 1 — REVIEW DOCS PRs:
-   gh pr list --repo Molecule-AI/docs --state open --json number,title
-   For each open PR: read the diff, check writing quality, accuracy, formatting.
-   Approve with gh pr review <number> --approve --repo Molecule-AI/docs, or request changes.
-   Fast turnaround unblocks merges.
-
 IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
 
 Cross-repo docs watch. Fire every 2 hours. Mandate: keep documentation in

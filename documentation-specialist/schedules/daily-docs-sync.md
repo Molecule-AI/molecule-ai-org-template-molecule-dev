@@ -8,13 +8,13 @@ Daily documentation maintenance. Two parallel objectives:
 (2) backfill stub pages on the docs site one at a time.
 
 SETUP:
-  cd /workspace/repos/molecule-core && git fetch origin staging && git pull origin staging 2>/dev/null || true
-  cd /workspace/repos/docs && git fetch origin main && git pull origin main 2>/dev/null || true
-  cd /workspace/repos/molecule-controlplane && git fetch origin staging && git pull origin staging 2>/dev/null || true
+  cd /workspace/repo && git pull 2>/dev/null || true
+  cd /workspace/docs && git pull 2>/dev/null || true
+  cd /workspace/controlplane && git pull 2>/dev/null || true
 
 1a. PAIR RECENT PLATFORM PRS (last 24h):
-   cd /workspace/repos/molecule-core
-   gh pr list --repo Molecule-AI/molecule-core --state merged \
+   cd /workspace/repo
+   gh pr list --repo Molecule-AI/molecule-monorepo --state merged \
      --search "merged:>$(date -u -d '24 hours ago' +%Y-%m-%dT%H:%M:%SZ)" \
      --json number,title,files
    For each merged PR that touches a public surface
@@ -28,7 +28,7 @@ SETUP:
    - Always close PRs with `Closes platform PR #N` so the link is durable.
 
 1b. PAIR RECENT CONTROLPLANE PRS (last 24h):
-   cd /workspace/repos/molecule-controlplane
+   cd /workspace/controlplane
    gh pr list --repo Molecule-AI/molecule-controlplane --state merged \
      --search "merged:>$(date -u -d '24 hours ago' +%Y-%m-%dT%H:%M:%SZ)" \
      --json number,title,files
@@ -48,21 +48,21 @@ SETUP:
    INTERNAL-only and ask PM for explicit approval before publishing.
 
 2. BACKFILL ONE STUB PAGE:
-   cd /workspace/repos/docs
+   cd /workspace/docs
    grep -l "Coming soon" content/docs/*.mdx | head -1
    Pick the highest-priority stub (one of: org-template, plugins,
    channels, schedules, architecture, api-reference, self-hosting,
    observability, troubleshooting). Write 300-800 words of
    hand-crafted, example-rich content based on:
-   - The actual code in /workspace/repos/molecule-core/platform/internal/handlers/
-   - The actual templates in /workspace/repos/molecule-core/org-templates/
-   - The actual plugin manifests in /workspace/repos/molecule-core/plugins/
+   - The actual code in /workspace/repo/platform/internal/handlers/
+   - The actual templates in /workspace/repo/org-templates/
+   - The actual plugin manifests in /workspace/repo/plugins/
    Cite file paths so readers can follow the source. Open a PR.
 
 3. LINK + ANCHOR CHECK:
    Use the browser-automation plugin to crawl
    https://doc.moleculesai.app (or the local dev server if the
-   site isn't deployed yet — `cd /workspace/repos/docs && npm install
+   site isn't deployed yet — `cd /workspace/docs && npm install
    && npm run build && npm run start`). Report broken links and
    missing anchors back to PM.
 

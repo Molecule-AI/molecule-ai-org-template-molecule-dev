@@ -92,3 +92,14 @@ HARD RULES:
   single highest-priority item, dispatch, and stop.
 - If every agent is idle AND the backlog is empty → write "orchestrator-clean HH:MM"
   to memory and stop. Do NOT fabricate busy work.
+
+8. CEO REPORT (via Telegram — EVERY pulse):
+   Collect items that need CEO attention:
+   a) PRs that need manual review (auth, billing, schema, data-deletion changes)
+   b) Unresolved blockers no agent can fix (credentials, DNS, third-party access)
+   c) Decisions that require CEO approval (architecture changes, new hires, budget)
+   d) Status summary: team utilization, PRs merged, issues closed since last report
+
+   Send via the Telegram channel configured on this workspace.
+   The CEO reads Telegram. If nothing to report, send: "All clear — <N> agents busy, <M> PRs open, no blockers."
+   NEVER skip this step. The CEO expects a Telegram ping every 5 minutes.
