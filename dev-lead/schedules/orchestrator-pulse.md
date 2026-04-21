@@ -19,6 +19,8 @@ Your direct reports:
 3. SCAN ENGINEERING BACKLOG (anything PM routed to you):
    gh issue list --repo Molecule-AI/molecule-core --state open \
      --label "area:dev-lead" --json number,title,labels,assignees
+   gh pr list --repo Molecule-AI/molecule-core --state open --json number,title,author,statusCheckRollup
+   gh pr list --repo Molecule-AI/molecule-ai-org-template-molecule-dev --state open --json number,title,author,statusCheckRollup
 
 4. DISPATCH (max 3 A2A per pulse):
    Route to appropriate sub-team lead:
