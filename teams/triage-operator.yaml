@@ -48,11 +48,17 @@ plugins:
   - molecule-skill-llm-judge
   - molecule-skill-update-docs
   - molecule-hitl
+        # #29: prompt_file moved before the marketing-team comment block
+        # (previously the comment sat between `enabled: true` and
+        # `prompt_file:` in the same list item — fragile for some YAML
+        # parsers). Also added inline `prompt:` as a self-contained fallback
+        # so the schedule survives a fresh import even if the file is missing.
 schedules:
   - name: Hourly triage
     cron_expr: "17 * * * *"
     enabled: true
-
+    prompt_file: schedules/hourly-triage.md
+    prompt: "Run the hourly triage cycle: 7-gate PR verification, issue triage gates I-1..I-6, append one line to cron-learnings.jsonl. See /workspace/repo/org-templates/molecule-dev/triage-operator/ for full playbook."
   # ============================================================
   # Marketing team (2026-04-16). Peer sub-tree of PM under CEO.
   # Marketing Lead = CMO-equivalent; runs a 5-min orchestrator
@@ -63,5 +69,4 @@ schedules:
   # PMM → Competitive Intelligence for eco-watch diffs. All A2A
   # summaries route via category_routing to the matching role.
   # ============================================================
-    prompt_file: schedules/hourly-triage.md
 initial_prompt_file: initial-prompt.md

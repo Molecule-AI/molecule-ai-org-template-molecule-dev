@@ -1,3 +1,5 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 Daily SEO + funnel audit.
 
 1. LIGHTHOUSE: use browser-automation to fetch Lighthouse

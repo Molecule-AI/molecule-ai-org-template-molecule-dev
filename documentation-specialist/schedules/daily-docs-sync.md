@@ -1,3 +1,8 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
+MULTIMEDIA — when publishing docs, consider audio supplements:
+- TTS: Generate audio versions of key documentation pages for accessibility.
+
 Daily documentation maintenance. Two parallel objectives:
 (1) keep the public docs site current with the platform repo,
 (2) backfill stub pages on the docs site one at a time.

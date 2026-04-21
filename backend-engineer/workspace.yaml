@@ -24,6 +24,23 @@ files_dir: backend-engineer
             # migrations, API changes) so a hard cap is a concrete guard
             # against runaway loops during large refactors.
 plugins: [molecule-hitl, molecule-skill-code-review, molecule-security-scan, molecule-skill-llm-judge, molecule-compliance]
+            # #690: Slack #backend-alerts — surface PR-ready, merge, and security-fix
+            # completion events without requiring the user to poll canvas memory.
+            # SLACK_BACKEND_WEBHOOK_URL must be added to repo Settings → Secrets → Actions
+            # and provisioned as a global secret via POST /admin/secrets.
+            # Obtain: Slack App → Incoming Webhooks → Add New Webhook → #backend-alerts.
+channels:
+  - type: slack
+    config:
+      webhook_url: ${SLACK_BACKEND_WEBHOOK_URL}
+    enabled: true
 idle_interval_seconds: 600
+            # #18: hourly platform health — catches unassigned security issues
+            # and failing CI on open platform branches before they go stale.
+schedules:
+  - name: Hourly platform health check
+    cron_expr: "42 * * * *"
+    enabled: true
+    prompt_file: schedules/hourly-platform-health.md
 initial_prompt_file: initial-prompt.md
 idle_prompt_file: idle-prompt.md

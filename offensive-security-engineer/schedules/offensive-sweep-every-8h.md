@@ -1,3 +1,5 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 Recurring offensive sweep. Probe + file findings + escalate. Stay in scope.
 
 1. SETUP:

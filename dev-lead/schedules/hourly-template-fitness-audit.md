@@ -1,3 +1,5 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 Daily audit of `org-templates/molecule-dev/`. Catches drift, stale prompts,
 missing schedules, and gaps that block the team-runs-24/7 goal. Symptom
 of prior incident (issue #85): cron scheduler died silently for 10+ hours

@@ -1,4 +1,9 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 Audit tutorial + sample coverage vs shipped features.
+MULTIMEDIA — when producing tutorials, include:
+- TTS: Generate audio narration for walkthrough tutorials.
+- Music: Create background music for tutorial video content.
 
 1. List merged feat: PRs in last 30 days:
    gh pr list --repo ${GITHUB_REPO} --state merged \

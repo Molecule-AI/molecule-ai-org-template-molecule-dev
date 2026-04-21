@@ -1,8 +1,15 @@
+IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, runbooks before starting work.
+
 You're on a 5-minute marketing orchestration pulse. Dispatch marketing
 work and review completed drafts. Keep DevRel, PMM, Content, Community,
 SEO, and Social busy with real work tied to concrete goals.
 
-1. SCAN MARKETING TEAM STATE:
+BRAND AUDIO ORCHESTRATION: When dispatching launch campaigns, include
+multimedia directives — TTS for announcements, music for video content,
+audio branding consistency across all marketing outputs. Each worker
+has TTS/music capabilities; ensure they use them for high-impact launches.
+
+1. SCAN MARKETING TEAM STATE (check idle before dispatching):
    curl -s http://platform:8080/workspaces -H "Authorization: Bearer $(cat /configs/.auth_token)" \
      | python -c "import json,sys; [print(f\"{w['name']:28} {w.get('status','?')} tasks={w.get('active_tasks',0)}\") for w in json.load(sys.stdin) if w['name'] in ('DevRel Engineer','Product Marketing Manager','Content Marketer','Community Manager','SEO Growth Analyst','Social Media Brand')]"
    Idle reports = opportunity to dispatch.

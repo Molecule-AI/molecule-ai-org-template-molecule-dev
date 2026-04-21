@@ -9,7 +9,17 @@ files_dir: qa-engineer
             # (in detect mode, not block) catches adversarial test payloads
             # before they slip into production. OA-03 excessive-agency caps
             # prevent runaway test loops.
-plugins: [molecule-skill-code-review, molecule-skill-llm-judge, molecule-compliance]
+plugins: [molecule-skill-code-review, molecule-skill-llm-judge, molecule-compliance, molecule-hitl]
+            # #19: Telegram delivery for code quality audit — blocking failures
+            # from the 6h/18h cron now surface immediately instead of waiting
+            # for the user to poll canvas memory. Reuses existing
+            # TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID (zero new secrets).
+channels:
+  - type: telegram
+    config:
+      bot_token: ${TELEGRAM_BOT_TOKEN}
+      chat_id: ${TELEGRAM_CHAT_ID}
+    enabled: true
 schedules:
   - name: Code quality audit (every 12h)
     cron_expr: "0 6,18 * * *"
