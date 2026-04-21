@@ -7,7 +7,12 @@ tier: 3
 runtime: claude-code
 model: MiniMax-M2.7
 files_dir: dev-lead
-plugins: [molecule-skill-code-review, molecule-skill-llm-judge]
+# Dev Lead enforces PR quality gates (see gate 2a in
+        # .claude/skills/triage/SKILL.md) and reviews engineering output
+        # before handoff to PM. The code-review skill surfaces the
+        # 16-criteria rubric — without it Dev Lead falls back to ad-hoc
+        # review prompts. Issue #133.
+plugins: [molecule-skill-code-review, molecule-skill-llm-judge, molecule-hitl, molecule-freeze-scope]
 canvas: {x: 650, y: 250}
 channels:
   - type: telegram

@@ -28,11 +28,18 @@ files_dir: devops-engineer
 plugins: [molecule-hitl, molecule-skill-code-review, molecule-freeze-scope]
             # #247: notify on build-break — DevOps routes CI failures + infra
             # alerts via Telegram so they're not invisible until morning review.
+            # #624: Slack channel added alongside Telegram so CI/build-break
+            # alerts go to a dedicated #ci-alerts channel with threading +
+            # emoji-reaction ACK, separate from the CEO↔agent Telegram chat.
 channels:
   - type: telegram
     config:
       bot_token: ${TELEGRAM_BOT_TOKEN}
       chat_id: ${TELEGRAM_CHAT_ID}
+    enabled: true
+  - type: slack
+    config:
+      webhook_url: ${SLACK_CI_WEBHOOK_URL}
     enabled: true
 idle_interval_seconds: 600
 schedules:
