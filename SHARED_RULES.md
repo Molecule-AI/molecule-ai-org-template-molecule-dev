@@ -28,3 +28,35 @@ These rules apply to every agent in the Molecule AI org. Your role-specific syst
 When an agent encounters an error it cannot resolve (e.g., a 401 from GitHub), there is a strong temptation to hypothesize a root cause and present it as fact. This is hallucination — fabricating plausible-sounding infrastructure details (server names, cache states, SSH targets) that do not exist. When these fabrications enter the A2A delegation chain, they get amplified: Agent A invents a detail, Agent B cites it as confirmed, PM aggregates it into a "platform emergency," and the CEO spends hours chasing a ghost.
 
 The fix is simple: report exactly what you observed, say "I don't know" for everything else, and verify peer claims before forwarding them.
+
+## Git Workflow — Staging First, Always
+
+**NEVER merge directly to main.** All code changes follow this workflow:
+
+1. **Branch** from `staging` (not main): `git checkout -b fix/my-fix staging`
+2. **Push** to your branch and open a PR targeting `staging`
+3. **CI must pass** on staging before merge — if CI is red, fix it yourself, don't escalate
+4. **Staging deploy** — after merge to staging, verify on the staging site
+5. **Staging → main** — only after staging is verified working, open a PR from staging to main
+6. **Main is protected** — requires CI pass + review. Never bypass, never ask CEO to bypass
+
+**Why:** Direct-to-main merges have broken production multiple times. Staging exists as a safety gate. Use it.
+
+**Repos that need this workflow:**
+- `molecule-core` (platform + canvas)
+- `molecule-controlplane`
+- `molecule-tenant-proxy`
+- `molecule-app`
+
+**Repos where direct-to-main is OK** (no staging needed):
+- `docs`, `landingpage`, `internal` — content-only repos
+- `molecule-ai-plugin-*` — standalone plugins
+- `molecule-ai-workspace-template-*` — templates
+- `molecule-ai-org-template-*` — org templates
+
+## Credential Rules
+
+1. **NEVER share tokens in Slack channels.** Tokens are env vars, not messages.
+2. **NEVER ask other agents for their PAT/token.** Each agent gets its own `ghs_` token from the platform.
+3. **If your token is expired**, wait for the next cron restart or report "GH_TOKEN 401" — do NOT fabricate that someone else has a "Classic PAT."
+4. **NEVER post credentials in GitHub issue/PR bodies or commit messages.**
