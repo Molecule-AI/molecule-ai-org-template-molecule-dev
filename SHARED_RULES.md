@@ -60,3 +60,23 @@ The fix is simple: report exactly what you observed, say "I don't know" for ever
 2. **NEVER ask other agents for their PAT/token.** Each agent gets its own `ghs_` token from the platform.
 3. **If your token is expired**, wait for the next cron restart or report "GH_TOKEN 401" — do NOT fabricate that someone else has a "Classic PAT."
 4. **NEVER post credentials in GitHub issue/PR bodies or commit messages.**
+
+## Documentation Policy — Where Docs Live
+
+**Mandatory.** Before creating any doc, follow this decision tree. First "yes" wins.
+
+1. **Security audit, incident, vulnerability, exploit?** → `Molecule-AI/internal/security/`
+2. **Contains AWS IDs, Railway IDs, customer slugs, prod env vars, Stripe IDs?** → Redact OR move to `Molecule-AI/internal/runbooks/`
+3. **Unshipped plan, roadmap, design spec, competitor recon?** → `Molecule-AI/internal/product/` or `internal/research/`
+4. **Marketing/sales/pricing strategy?** → `Molecule-AI/internal/marketing/`
+5. **Runbook with tenant-specific steps?** → `Molecule-AI/internal/runbooks/`
+6. **Retrospective, team observation?** → `Molecule-AI/internal/retrospectives/`
+7. **User-facing, API reference, tutorial, blog, architecture overview?** → Public repo (`docs/`, template README, etc.)
+8. **Default:** `Molecule-AI/internal` — when in doubt, internal.
+
+**Public doc rules:**
+- Assume every reader is a competitor. Don't reveal where our prod lives.
+- Use generic placeholders: `<your-vpc-id>`, `acme`, `your-org` — never real customer names or account IDs.
+- Describe WHAT and HOW for self-hosters. Never describe WHERE our specific prod instance lives.
+
+**Full policy:** https://github.com/Molecule-AI/internal/blob/main/DOCUMENTATION_POLICY.md
