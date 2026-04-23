@@ -11,6 +11,6 @@ plugins: [molecule-hitl, molecule-skill-code-review, molecule-security-scan, mol
 idle_interval_seconds: 900
 schedules:
   - name: Pick up work (every 15 min)
-    cron_expr: "*/15 * * * *"
+    cron_expr: "9,24,39,54 * * * *"
     enabled: true
     prompt_file: schedules/pick-up-work.md

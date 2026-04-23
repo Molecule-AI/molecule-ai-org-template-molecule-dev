@@ -18,6 +18,6 @@ plugins:
 idle_interval_seconds: 900
 schedules:
   - name: Security scan (every 30 min)
-    cron_expr: "*/30 * * * *"
+    cron_expr: "2,32 * * * *"
     enabled: true
     prompt_file: schedules/security-scan.md

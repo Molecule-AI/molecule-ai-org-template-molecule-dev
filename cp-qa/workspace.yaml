@@ -11,6 +11,6 @@ plugins: [molecule-skill-code-review, molecule-skill-llm-judge, molecule-complia
 idle_interval_seconds: 900
 schedules:
   - name: QA review (every 15 min)
-    cron_expr: "*/15 * * * *"
+    cron_expr: "8,23,38,53 * * * *"
     enabled: true
     prompt_file: schedules/qa-review.md

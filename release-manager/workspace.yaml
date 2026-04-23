@@ -11,6 +11,6 @@ plugins: [molecule-hitl, molecule-skill-code-review, molecule-freeze-scope]
 idle_interval_seconds: 900
 schedules:
   - name: Release cycle (every 30 min)
-    cron_expr: "*/30 * * * *"
+    cron_expr: "4,34 * * * *"
     enabled: true
     prompt_file: schedules/release-cycle.md
