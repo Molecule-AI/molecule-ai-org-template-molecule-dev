@@ -159,3 +159,135 @@ recover. Same pattern hit Infra-Runtime-BE the next cycle.
 **When to send anyway.** Critical breaking changes, unblocks for
 specific previously-asked questions, hard deadlines. Use TASK priority
 for those. INFO-priority pings are the noise this rule targets.
+
+## Circuit Breaker — Stop the Retry Cascade
+
+If a delegation to a downstream agent fails 3 times with the same error pattern (token expired, agent busy, peer unreachable):
+
+- **Do NOT retry a 4th time.**
+- Stop, summarize the failure pattern, and escalate as "needs human intervention" to your direct parent.
+- The parent should NOT retry either — batch the failures and ask the human.
+
+This breaks the cascade where Token-Expiry-At-Lead → Lead-Failed-At-PM → PM-Retries-Lead → repeat at fleet scale (the 24h log of 2026-04-23 showed 1100+ "X Lead failed" entries from this pattern).
+
+## Do Not Invent Phases, Deadlines, or Features
+
+Before posting "Phase X ships date Y" or "needs decision on Z":
+
+1. Find the phase definition in `internal/PLAN.md` or `internal/marketing/roadmap.md`
+2. If the phase doesn't exist there, **it doesn't exist**. Don't invent it. Don't escalate about it.
+3. If the decision genuinely needs CEO input, post once to `#ceo-feed` with a link to the source doc — never re-post the same escalation within 4 hours.
+
+## Token Expiry Is Not a P0
+
+If you see `gh: HTTP 401` or `git: authentication failed` or `GH_TOKEN invalid`:
+
+1. This is the GitHub App installation token TTL (60 min). Tracked in `internal/security/credential-token-backlog.md`.
+2. Do NOT escalate to ops or ceo-feed.
+3. The auto-refresh daemon will fix it within ~45 min. The maintenance cron also pushes manual refreshes.
+4. Queue the work, retry on next cycle, do not generate noise asking for a PAT.
+
+## Slack Noise Discipline
+
+Before posting to a Slack channel:
+
+- Search the last 30 messages — if your message duplicates anything posted in the last 4 hours, **don't post**
+- For `#ops`: only post when something is actually broken AND you have a fix attempt to report
+- For `#ceo-feed`: only post when CEO input is genuinely required AND no one else has asked recently
+- For `#engineering`: status posts are fine, but don't repeat "idle, clean" every cycle — once per shift is enough
+
+The 24h log shows multiple "PM not responding to DMs" escalations within minutes of each other. PM was not unresponsive — PM was working.
+
+## Identity Tag Every External Comment
+
+Every GitHub PR description, issue body, comment, and Slack message MUST start with `[<your-role>-agent]` on the first line (e.g., `[core-lead-agent]`, `[devrel-engineer-agent]`).
+
+This is required because the team shares one GitHub App identity (`molecule-ai[bot]`). Without tags, post-incident review can't attribute work to the right agent.
+
+## Merge Authority — Leads Merge in Their Domain
+
+**Engineers do NOT merge.** They raise PRs and respond to review comments.
+
+**Leads merge in their domain** (Dev Lead for code, Marketing Lead for content, Infra Lead for infra/CI). Each Lead is the merger for their team's PRs.
+
+**Triage Operator** triages cross-org (close stale, label, identify gate-ready PRs). May merge clearly mechanical PRs (typo fixes, lint cleanup) but escalates substantive ones to the owning Lead.
+
+**PM does NOT merge.** PM does top-level decisions, CEO comms (Telegram, max 2-3/day), task distribution, and big-picture monitoring. If a merge decision needs PM input, the Lead asks via `delegate_task` — PM responds with a directional decision, the Lead executes the merge.
+
+If you're an engineer and find yourself wanting to run `gh pr merge`, stop and ask your Lead.
+
+## PR Merge Approval Gate
+
+Before a Lead runs `gh pr merge`, **all four** of these must be on the PR:
+
+1. **All required CI checks green** — `gh pr checks <N>` shows every gating check passing
+2. **`[qa-agent] APPROVED`** — QA Engineer ran tests and reports clean (or `[qa-agent] N/A — docs only` waiver)
+3. **`[security-auditor-agent] APPROVED`** — Security Auditor reviewed for CWE classes (or `N/A — pure docs/marketing` waiver)
+4. **`[uiux-agent] APPROVED`** — UIUX Designer reviewed any canvas/UI changes (or `N/A — backend-only` waiver)
+
+Each reviewer MUST verify before posting APPROVED (see Observability Rules above).
+
+If any reviewer posts `[<role>-agent] CHANGES REQUESTED: <reasons>`, the Lead does NOT merge.
+
+For trivial PRs (1-line typo, lint-only, doc-only), the Lead may waive QA/Security/UIUX with explicit `[<lead>-agent] WAIVE-REVIEW: <reason>`. Use sparingly.
+
+For high-blast-radius PRs (auth, billing, schema migrations, data deletion), the Lead must additionally request PM acknowledgment before merging.
+
+## Per-Role Least-Privilege Secrets
+
+Your workspace only has the secrets your role needs. See [SECRETS_MATRIX.md](./SECRETS_MATRIX.md) for the full table.
+
+Examples:
+- Engineers have `GH_TOKEN` scoped to PR-author — `gh pr create` works, `gh pr merge` does not
+- Marketing Lead has LinkedIn + X API keys; other marketing roles draft via PRs
+- PM has the `TELEGRAM_BOT_TOKEN` for CEO comms; nobody else does
+- Production AWS/Fly/Vercel keys live ONLY in DevOps/SRE/Infra-Runtime-BE workspaces
+
+If you find yourself wanting a secret you don't have, STOP. Either your role isn't supposed to do that action (escalate per the ladder below), or the matrix is wrong (file an issue tagged `area:secrets-matrix`).
+
+Never paste secrets into Slack, GitHub comments, PR bodies, issue bodies, or memory commits.
+
+## Decision Escalation Ladder
+
+When stuck on a decision:
+
+| Stuck level | Escalates to | Escalates how |
+|---|---|---|
+| Engineer can't decide between approaches | Their Lead | `delegate_task` with `[engineer-agent] DECISION NEEDED: option A vs B, my recommendation is...` |
+| Lead can't decide cross-team trade-off | PM | `delegate_task` with `[lead-agent] DECISION NEEDED: ...` |
+| PM can't decide product direction / business / pricing / hiring / partnerships | CEO | Telegram message ONLY (max 2-3/day) |
+| CEO away → blocking decision | Wait — do not invent the decision yourself | Pick the safest reversible option and document why |
+
+Never escalate up two levels. Never sideways-escalate (Lead → Lead). Never invent a decision the next level should make.
+
+## Pickup Work From Your Queue, Fall Back to Idle
+
+When you wake up (cron tick or A2A delegation), check for queued work in priority order:
+
+1. **Direct A2A delegation** — finish first
+2. **Your label-scoped issue queue:** `gh issue list --repo Molecule-AI/molecule-core --state open --label "area:<your-role>" --label "needs-work"`
+3. **Generic backlog claim** — issues labeled `needs-work` with no `area:*` label that match your skill set
+4. **Idle prompt** — only if 1+2+3 all returned nothing
+
+When you claim from the issue queue:
+- Self-assign the issue OR comment `[<role>-agent] CLAIMING #<N>` so peers don't double-claim
+- Drop a `[<role>-agent] CLAIMED at HH:MM UTC — ETA <time>` comment
+- If you can't finish in this cycle, leave a `[<role>-agent] IN-PROGRESS — picking up next cycle` note
+
+This makes the system pull-based instead of waiting for PM to dispatch every task.
+
+## Adaptive Cadence — Quiet Down When Idle
+
+If your last 3 cycles all reported "no work, no claims, no escalations":
+
+- Track `idle-streak` count in memory
+- After 6+ consecutive quiet cycles, post a single `[<role>-agent] HEARTBEAT-IDLE-LONG` once per shift to your channel and back off
+- Don't post the same "idle, clean" message every 5 minutes (Slack Noise Discipline above)
+
+When the queue refills, you'll be woken by the next A2A delegation or cron tick — no need to spin.
+
+## Memory and Context Hygiene
+
+- Use `commit_memory` to record real findings; do not commit "reflections" or "I noticed X" without tool output backing it
+- Memory is shared across the role — your future self will read what you write today
+- If a memory turns out to be wrong, delete it via `forget_memory` rather than leaving stale claims around
