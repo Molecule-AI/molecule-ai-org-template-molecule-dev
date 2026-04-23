@@ -80,3 +80,46 @@ The fix is simple: report exactly what you observed, say "I don't know" for ever
 - Describe WHAT and HOW for self-hosters. Never describe WHERE our specific prod instance lives.
 
 **Full policy:** https://github.com/Molecule-AI/internal/blob/main/DOCUMENTATION_POLICY.md
+
+### NEVER write internal content to the public monorepo
+
+CEO directive 2026-04-23, after 79 internal files leaked into the public
+`molecule-monorepo`. The following paths in `Molecule-AI/molecule-monorepo`
+are now **CI-blocked** — your PR will fail with a clear error if you try:
+
+- `/research/` — competitive briefs, market analysis
+- `/marketing/` — PMM, sales, press, drip, campaigns
+- `/docs/marketing/` — draft campaign / blog / brief content
+- `/comment-*.json`, `*-temp.{md,txt}`, `/test-pmm-*`, `/tick-reflections-*` — junk
+
+**Where these go instead:** `Molecule-AI/internal/`. Use the workflow below.
+
+### How to write to the internal repo (copy-paste this)
+
+```bash
+# One-time clone (idempotent)
+mkdir -p ~/repos
+test -d ~/repos/internal || gh repo clone Molecule-AI/internal ~/repos/internal
+
+cd ~/repos/internal
+git pull origin main
+git checkout -b <my-role>/<topic>-<date>     # e.g. pmm/phase34-positioning-2026-05-01
+mkdir -p <area>                               # research, marketing, runbooks, etc.
+$EDITOR <area>/<slug>.md                      # write your content
+git add <area>/<slug>.md
+git commit -m "<area>: add <slug>"
+git push -u origin HEAD
+gh pr create --base main --fill
+```
+
+The friction here is intentional. Public space and internal space are
+different products with different audiences and different durability
+guarantees — making the decision explicit at write time prevents the
+"easiest path my cwd resolves to" failure mode that caused this leak.
+
+If you genuinely need to add a new top-level path in the public monorepo
+that happens to match a forbidden pattern (e.g. a renamed `research/`
+directory for a public benchmark), do not work around the gate by
+renaming. Open a PR editing
+`molecule-monorepo/.github/workflows/block-internal-paths.yml` with
+human reviewer signoff and a clear public-facing justification.
