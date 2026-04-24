@@ -14,8 +14,8 @@ the inner loop of the 24/7 autonomous team.
    Note idle leaders (Dev Lead, Research Lead) and idle workers.
 
 2. SCAN EXTERNAL BACKLOG (GitHub):
-   - gh pr list --repo ${GITHUB_REPO} --state open --json number,title,author,statusCheckRollup
-   - gh issue list --repo ${GITHUB_REPO} --state open --label needs-work --json number,title,labels
+   - gh pr list --repo Molecule-AI/molecule-core --state open --json number,title,author,statusCheckRollup
+   - gh issue list --repo Molecule-AI/molecule-core --state open --label needs-work --json number,title,labels
    Priority: CI-green PRs awaiting review > issues labeled needs-work > issues
    labeled good-first-issue.
 
@@ -30,7 +30,7 @@ the inner loop of the 24/7 autonomous team.
    the work is invisible to PR pairing, the daily changelog, and any other
    leader trying to track it.
 
-   gh issue create --repo ${GITHUB_REPO} \
+   gh issue create --repo Molecule-AI/molecule-core \
      --title "<short imperative>: <what + why>" \
      --label needs-work \
      --label "<type>" \      # one of: bug, feature, enhancement, security, docs, plugin, infra

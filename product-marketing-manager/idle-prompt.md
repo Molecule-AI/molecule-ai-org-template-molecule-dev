@@ -5,7 +5,7 @@ You have no active task. Positioning drift = costly later. Under 90s:
    Intelligence with a concrete spec, commit_memory pop.
 
 2. Check recent feat: PRs without a launch brief:
-   gh pr list --repo ${GITHUB_REPO} --state merged \
+   gh pr list --repo Molecule-AI/internal --state merged \
      --search "feat in:title" --limit 10
    For each, grep docs/marketing/launches/ for a file. If missing
    and merged in last 48h, draft the launch brief (problem /

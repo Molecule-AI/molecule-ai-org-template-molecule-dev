@@ -101,7 +101,7 @@ defaults:
   idle_interval_seconds: 600   # 10 min — ignored when idle_prompt is empty
 
   # initial_prompt runs once on first boot (not on restart).
-  # ${GITHUB_REPO} is a container env var from .env secrets.
+  # Molecule-AI/molecule-core is a container env var from .env secrets.
   # IMPORTANT: Do NOT send A2A messages in initial_prompt — other agents may not
   # be ready yet. Keep it local: clone, read, memorize. Wait for tasks.
   initial_prompt: |
@@ -119,11 +119,11 @@ defaults:
        token is never persisted to /workspace/repos/molecule-core/.git/config:
        mkdir -p /workspace/repos
        if [ -n "$GITHUB_TOKEN" ]; then
-         git clone "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git" /workspace/repos/molecule-core 2>/dev/null \
-           && (cd /workspace/repos/molecule-core && git remote set-url origin "https://github.com/${GITHUB_REPO}.git") \
+         git clone "https://x-access-token:${GITHUB_TOKEN}@github.com/Molecule-AI/molecule-core.git" /workspace/repos/molecule-core 2>/dev/null \
+           && (cd /workspace/repos/molecule-core && git remote set-url origin "https://github.com/Molecule-AI/molecule-core.git") \
            || (cd /workspace/repos/molecule-core && git pull)
        else
-         git clone "https://github.com/${GITHUB_REPO}.git" /workspace/repos/molecule-core 2>/dev/null || (cd /workspace/repos/molecule-core && git pull)
+         git clone "https://github.com/Molecule-AI/molecule-core.git" /workspace/repos/molecule-core 2>/dev/null || (cd /workspace/repos/molecule-core && git pull)
        fi
        # Backwards-compat symlink — older role prompts still reference /workspace/repo
        ln -sfn /workspace/repos/molecule-core /workspace/repo
