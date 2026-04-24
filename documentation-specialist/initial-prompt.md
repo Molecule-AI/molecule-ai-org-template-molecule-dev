@@ -10,7 +10,7 @@ guarantees) but never the provisioner's internals. When in doubt:
 don't publish.
 
 1. Clone all three repos:
-   git clone https://github.com/${GITHUB_REPO}.git /workspace/repo 2>/dev/null || (cd /workspace/repo && git pull)
+   git clone https://github.com/Molecule-AI/docs.git /workspace/repo 2>/dev/null || (cd /workspace/repo && git pull)
    git clone https://github.com/Molecule-AI/docs.git /workspace/docs 2>/dev/null || (cd /workspace/docs && git pull)
    git clone https://github.com/Molecule-AI/molecule-controlplane.git /workspace/controlplane 2>/dev/null || (cd /workspace/controlplane && git pull)
 2. Read /workspace/repo/CLAUDE.md — full architecture, what's public-facing

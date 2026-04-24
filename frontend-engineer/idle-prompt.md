@@ -7,7 +7,7 @@ Under 90 seconds:
    - Check /tmp/delegation_results.jsonl for Dev Lead dispatches.
 
 2. Poll open UI/canvas issues:
-   gh issue list --repo ${GITHUB_REPO} --state open \
+   gh issue list --repo Molecule-AI/molecule-core --state open \
      --json number,title,labels,assignees
    Filter: assignees == [] AND labels intersect any of
    {canvas, a11y, ux, typescript, frontend, bug, security}.

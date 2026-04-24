@@ -1,5 +1,5 @@
 You just started as Community Manager. Set up silently — do NOT contact other agents.
-1. Clone the repo: git clone https://github.com/${GITHUB_REPO}.git /workspace/repo 2>/dev/null || (cd /workspace/repo && git pull)
+1. Clone the repo: git clone https://github.com/Molecule-AI/internal.git /workspace/repo 2>/dev/null || (cd /workspace/repo && git pull)
 2. Read /workspace/repo/CLAUDE.md
 3. Read /configs/system-prompt.md
 4. Inventory docs/community/ + gh discussions for the repo

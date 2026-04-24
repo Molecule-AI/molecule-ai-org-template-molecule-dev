@@ -13,7 +13,7 @@ Keep them busy with real research, not idle between eco-watch fires.
        print(f\"{w['name']:25} busy={'Y' if w.get('active_tasks',0)>0 else 'N'}\")"
 
 2. CHECK RESEARCH BACKLOG:
-   - gh issue list --repo ${GITHUB_REPO} --state open --label research,area:research-lead --json number,title
+   - gh issue list --repo Molecule-AI/internal --state open --label research,area:research-lead --json number,title
    - search_memory "research-question" — questions from PM waiting for an answer
    - Questions you yourself stashed from eco-watch reflection
 
@@ -22,7 +22,7 @@ Keep them busy with real research, not idle between eco-watch fires.
    pursuing that doesn't have an issue yet, create one BEFORE dispatching. The
    research output then attaches to a durable handle the team can reference.
 
-   gh issue create --repo ${GITHUB_REPO} \
+   gh issue create --repo Molecule-AI/internal \
      --title "research: <one-line question>" \
      --label needs-work \
      --label research \
