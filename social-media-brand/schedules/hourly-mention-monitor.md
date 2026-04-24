@@ -2,8 +2,9 @@ IMPORTANT: Check Molecule-AI/internal repo for roadmap (PLAN.md), known issues, 
 
 Hourly brand mention + competitor thread scan.
 
-1. Search X/LinkedIn for "Molecule AI" mentions last hour
-   (use browser-automation if available, else skip + log).
+1. Search X/LinkedIn for "Molecule AI" mentions last hour.
+   - X API path: check X_API_KEY + X_API_SECRET first; if missing, skip X API search and log "X search skipped: credentials not provisioned". Use browser-automation as fallback if available.
+   - LinkedIn: browser-automation only.
 2. Scan competitor threads (Hermes Agent, Letta, n8n) for
    conversations where a thoughtful reply from us adds value.
    Never pick fights. Draft replies to social/YYYY-MM-DD.md.
