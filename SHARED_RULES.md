@@ -123,3 +123,39 @@ directory for a public benchmark), do not work around the gate by
 renaming. Open a PR editing
 `molecule-monorepo/.github/workflows/block-internal-paths.yml` with
 human reviewer signoff and a clear public-facing justification.
+
+## A2A Sync-Message Dedup — Don't Bombard PMs After Incidents
+
+**Rule.** Before sending an A2A status / sync / acknowledgement message,
+check whether you sent a substantively-similar message to the same target
+in the last 30 minutes. If yes, do NOT send. The recipient hasn't read
+the previous one yet (their queue is processing serially); a duplicate
+just deepens their backlog.
+
+This applies especially to:
+
+- **Post-incident "is X working now?" pings** — wait for the next natural
+  delegation cycle to confirm; don't broadcast catch-up messages
+- **"Status update" messages where nothing material has changed** — a
+  one-line "still working on it" message a PM has to read + ack costs
+  more than it conveys
+- **Acknowledgements ("got your message, will work on it")** — the queue
+  itself is the acknowledgement. Don't double-ack with a message
+
+**Why.** Real incident from 2026-04-23: post fleet-restart, PM agent
+sent 3 nearly-identical "GITHUB_TOKEN is now live, please ack" messages
+to Dev Lead within 13 minutes. PM queue grew from depth 22 → 30 over
+two cycles purely from sync chatter. Manual SQL drop required to
+recover. Same pattern hit Infra-Runtime-BE the next cycle.
+
+**How to check.** Either:
+
+1. **Memory-check** before sending: `commit_memory_search "<target> <topic>"`
+   and look for entries from the last 30min on the same recipient + topic.
+2. **Queue depth check** if you have visibility: if the target's a2a
+   queue depth is >5, your message is unlikely to be read in time anyway —
+   defer.
+
+**When to send anyway.** Critical breaking changes, unblocks for
+specific previously-asked questions, hard deadlines. Use TASK priority
+for those. INFO-priority pings are the noise this rule targets.
