@@ -23,6 +23,6 @@ channels:
     enabled: true
 schedules:
   - name: Security audit (every 30 min)
-    cron_expr: "*/30 * * * *"
+    cron_expr: "5,35 * * * *"
     enabled: true
     prompt_file: schedules/security-audit.md

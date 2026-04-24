@@ -17,6 +17,6 @@ channels:
 idle_interval_seconds: 900
 schedules:
   - name: Pick up work (every 15 min)
-    cron_expr: "*/15 * * * *"
+    cron_expr: "3,18,33,48 * * * *"
     enabled: true
     prompt_file: schedules/pick-up-work.md

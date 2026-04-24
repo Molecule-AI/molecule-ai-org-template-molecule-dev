@@ -12,6 +12,6 @@ plugins: [molecule-hitl, molecule-skill-code-review, molecule-freeze-scope]
 idle_interval_seconds: 900
 schedules:
   - name: Orchestrator pulse (every 5 min)
-    cron_expr: "*/5 * * * *"
+    cron_expr: "3,8,13,18,23,28,33,38,43,48,53,58 * * * *"
     enabled: true
     prompt_file: schedules/orchestrator-pulse.md

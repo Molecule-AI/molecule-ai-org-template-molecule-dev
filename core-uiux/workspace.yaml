@@ -11,6 +11,6 @@ plugins: [molecule-skill-code-review, molecule-skill-llm-judge, browser-automati
 idle_interval_seconds: 900
 schedules:
   - name: Pick up work (every 15 min)
-    cron_expr: "*/15 * * * *"
+    cron_expr: "6,21,36,51 * * * *"
     enabled: true
     prompt_file: schedules/pick-up-work.md

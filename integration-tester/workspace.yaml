@@ -11,6 +11,6 @@ plugins: [molecule-skill-code-review, molecule-skill-llm-judge, molecule-complia
 idle_interval_seconds: 900
 schedules:
   - name: E2E test (every 30 min)
-    cron_expr: "*/30 * * * *"
+    cron_expr: "3,33 * * * *"
     enabled: true
     prompt_file: schedules/e2e-test.md
