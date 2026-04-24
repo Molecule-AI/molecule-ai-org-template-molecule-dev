@@ -354,3 +354,81 @@ When the queue refills, you'll be woken by the next A2A delegation or cron tick 
 - Use `commit_memory` to record real findings; do not commit "reflections" or "I noticed X" without tool output backing it
 - Memory is shared across the role — your future self will read what you write today
 - If a memory turns out to be wrong, delete it via `forget_memory` rather than leaving stale claims around
+
+## Content Worker → Internal-First PR Workflow
+
+**Applies to:** content workers (non-lead roles that produce
+docs/marketing/research/social output).
+**Does NOT apply to:** engineering roles (backend/frontend/qa/security/
+devops/uiux) — those ship directly to `molecule-core`/`molecule-app`/
+`molecule-controlplane` as before.
+
+### Who is a content worker
+
+| Role | Output lands in (eventually) |
+|---|---|
+| `content-marketer` | Blog posts, tutorials → `Molecule-AI/docs` |
+| `devrel-engineer` | Code demos, integration guides → `Molecule-AI/docs` |
+| `technical-writer` | Reference docs, API guides → `Molecule-AI/docs` |
+| `documentation-specialist` | Runbooks, internal SOPs → `Molecule-AI/docs` (if public) |
+| `seo-growth-analyst` | SEO briefs, keyword pages → `Molecule-AI/docs` + `landingpage` |
+| `social-media-brand` | Social copy, campaign assets (draft) |
+| `community-manager` | Community replies, FAQ updates |
+| `market-analyst` | Market analyses (draft) |
+| `competitive-intelligence` | Competitive briefs (draft) |
+| `technical-researcher` | Raw research notes (draft) |
+| `product-marketing-manager` (PMM) | PMM drafts, positioning (draft) |
+
+### The workflow
+
+1. **Worker drafts content** and files a PR to **`Molecule-AI/internal`**
+   on an appropriate path (`internal/marketing/`, `internal/research/`,
+   `internal/devrel-drafts/`, etc.).
+2. **Worker pings their lead** via A2A delegation or the PR comment
+   naming the lead. Example: content-marketer → marketing-lead,
+   technical-writer → app-docs-lead, research-analyst → research-lead.
+3. **Lead reviews** the internal PR. If the content is on-brand and
+   public-ready, the lead **opens a mirror PR on the public target
+   repo** (`docs` / `landingpage`) copying the approved content.
+4. **Lead merges the internal PR** regardless (to keep the
+   draft/record in internal); worker continues iterating there if the
+   public version needs revision.
+5. **If the content is NOT public-ready** (internal strategy, draft,
+   sensitive), lead merges the internal PR only. It lives in
+   `Molecule-AI/internal` as the canonical private record.
+
+### Why this is the workflow
+
+- **Workers focus on writing**; leads own the public-facing decision.
+- **Internal repo is the durable draft store** — everything a worker
+  produces ends up there, so the org never loses context.
+- **Public repos stay curated** — only content that passes a lead's
+  review gets seen by users/customers/competitors.
+- **The CI gate** in `molecule-monorepo` blocking `/research/`,
+  `/marketing/`, `/docs/marketing/` still applies as a last-resort
+  backstop for the rare case a worker mis-routes.
+
+### Lead responsibility (marketing-lead, research-lead, app-docs-lead, PMM)
+
+Your idle-prompt cron should include a step:
+
+```bash
+# Check internal PRs from your workers
+gh pr list --repo Molecule-AI/internal --state open \
+  --json number,title,author,createdAt \
+  --jq '.[] | select(.author.login != "app/molecule-ai" or .title | test("<my-worker-role>")) | "#\(.number) \(.title)"'
+```
+
+If a worker has filed an internal PR and you haven't reviewed it yet,
+that's your highest-priority work this cycle. Review, merge the
+internal PR, and (if public-worthy) open a mirror PR on the public
+target repo. See each lead's `idle-prompt.md` for the exact commands.
+
+### Worker responsibility
+
+When you have content ready to share publicly, **do not push to a
+public repo directly.** Open the PR in `Molecule-AI/internal` and wait
+for your lead. The friction is intentional — it's what keeps us from
+leaking drafts, broken demos, or wrong-brand copy to customers.
+
+Directive CEO 2026-04-24.
