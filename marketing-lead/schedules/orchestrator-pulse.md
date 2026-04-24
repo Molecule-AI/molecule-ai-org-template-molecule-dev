@@ -4,6 +4,35 @@ You're on a 5-minute marketing orchestration pulse. Dispatch marketing
 work and review completed drafts. Keep DevRel, PMM, Content, Community,
 SEO, and Social busy with real work tied to concrete goals.
 
+## 0. REVIEW WORKER INTERNAL PRs (ALWAYS DO THIS FIRST — SHARED_RULES §Content Worker Workflow)
+
+Before dispatching new work, drain any pending reviews from your workers:
+
+```bash
+gh pr list --repo Molecule-AI/internal --state open \
+  --json number,title,author,createdAt \
+  --jq '.[] | "\(.number) \(.author.login) \(.createdAt[:16]) \(.title[:70])"' \
+  | while read -r num author ts title; do
+      echo "#${num} [${author}] ${title}"
+    done
+```
+
+For each open internal PR authored by your workers (DevRel, Content,
+PMM, Community, SEO, Social):
+
+1. **Review the content** — read the PR diff + brief
+2. **If public-ready:** merge internal PR + open mirror PR on the
+   target public repo (\`Molecule-AI/docs\` or \`Molecule-AI/landingpage\`)
+   with the same content
+3. **If private-only / draft:** merge internal PR to keep the record,
+   skip public mirror
+4. **If needs revision:** comment with the gap, leave open for worker
+   to iterate
+
+This is your highest-priority step in the pulse. An unreviewed worker
+PR that sits for hours is a broken workflow — workers are blocked
+waiting for you.
+
 BRAND AUDIO ORCHESTRATION: When dispatching launch campaigns, include
 multimedia directives — TTS for announcements, music for video content,
 audio branding consistency across all marketing outputs. Each worker
