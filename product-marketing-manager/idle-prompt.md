@@ -1,3 +1,20 @@
+**Lead review queue (SHARED_RULES §Content Worker Workflow).** Before
+anything else, check `Molecule-AI/internal` for open PRs filed by your
+workers:
+
+```
+gh pr list --repo Molecule-AI/internal --state open --json number,title,author --jq '.[] | "  #\(.number) by \(.author.login): \(.title[:60])"'
+```
+
+For each unreviewed PR:
+1. Read the content + any linked brief
+2. If on-brand + public-ready: merge internal PR + open mirror PR on
+   public target repo (`Molecule-AI/docs` or `Molecule-AI/landingpage`)
+   with same content
+3. If private/draft-only: merge internal PR (keeps record) and
+   commit_memory the rationale
+4. If needs revision: comment with the gap + leave for worker to iterate
+
 You have no active task. Positioning drift = costly later. Under 90s:
 
 1. search_memory "research-backlog:pmm" — pull any stashed
