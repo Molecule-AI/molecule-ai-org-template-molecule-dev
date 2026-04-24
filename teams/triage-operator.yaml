@@ -53,6 +53,20 @@ plugins:
         # `prompt_file:` in the same list item — fragile for some YAML
         # parsers). Also added inline `prompt:` as a self-contained fallback
         # so the schedule survives a fresh import even if the file is missing.
+# #41: Telegram was configured live via the platform API after #26 closed,
+# but the config was never written back to the template. Persisting here so
+# the channel survives workspace re-provision and doesn't silently drop.
+# env vars: TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID_TRIAGE_OPERATOR (both in
+# SECRETS_MATRIX.md). Categories route to the same channel; the workspace's
+# own role-specific topics filter downstream on the bot side.
+channels:
+  - type: telegram
+    enabled: true
+    env:
+      bot_token: TELEGRAM_BOT_TOKEN
+      chat_id: TELEGRAM_CHAT_ID_TRIAGE_OPERATOR
+    categories: [incident, escalation, triage-summary]
+
 schedules:
   - name: Hourly triage
     cron_expr: "17 * * * *"

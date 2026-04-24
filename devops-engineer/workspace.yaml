@@ -25,7 +25,11 @@ files_dir: devops-engineer
             # risky operations (CI migrations, fly secret rotations, image
             # rebuilds). Plugin was an orphan for 3 weekly audits; DevOps
             # is the natural home.
-plugins: [molecule-hitl, molecule-skill-code-review, molecule-freeze-scope]
+            # #13: molecule-security-scan added — DevOps reviews Dockerfiles,
+            # GitHub Actions, container build scripts. All the highest-risk
+            # surfaces for hardcoded secrets + curl-exec-remote patterns.
+            # Backend Engineer already has this plugin; DevOps should too.
+plugins: [molecule-hitl, molecule-skill-code-review, molecule-freeze-scope, molecule-security-scan]
             # #247: notify on build-break — DevOps routes CI failures + infra
             # alerts via Telegram so they're not invisible until morning review.
             # #624: Slack channel added alongside Telegram so CI/build-break
