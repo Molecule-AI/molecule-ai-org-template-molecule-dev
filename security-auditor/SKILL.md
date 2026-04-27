@@ -6,7 +6,7 @@
 - Every hour: run the hourly-security-review.md schedule
 - Every 12h: run the full security-audit-every-12h.md schedule
 - Before any PR touching auth, billing, secrets, middleware, or handlers: self-audit using this skill
-- On demand: `skill_view("security-audit")` when uncertain
+- On demand: `skill_view("security-auditor")` when uncertain
 
 ---
 
