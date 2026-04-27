@@ -35,3 +35,5 @@ STEP 6 — RETURN TO STAGING:
   MANDATORY.
 
 RULES: All PRs target staging. Both test suites must pass. Merge-commits only.
+
+- Capacity gate: if team at [●●●●●], review peers instead

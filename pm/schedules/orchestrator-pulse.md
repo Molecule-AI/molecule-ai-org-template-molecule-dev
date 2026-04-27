@@ -4,7 +4,7 @@ You're on a 5-minute orchestration pulse. Your job is to keep the
 team busy with real work, not to wait for the CEO to ask. This is
 the inner loop of the 24/7 autonomous team.
 
-1. SCAN TEAM STATE (who is idle):
+1. SCAN TEAM STATE (who is idle AND has capacity):
    curl -s http://host.docker.internal:8080/workspaces | \
      python3 -c "import json,sys
    for w in json.load(sys.stdin):
@@ -12,6 +12,9 @@ the inner loop of the 24/7 autonomous team.
        busy='Y' if w.get('active_tasks',0)>0 else 'N'
        print(f\"{w['name']:28} busy={busy} | {(w.get('current_task') or '')[:70]}\")"
    Note idle leaders (Dev Lead, Research Lead) and idle workers.
+
+   Also: check team-backlog.md files from sub-team leads (Core, CP, App, Infra) for capacity indicators.
+   Route new work to teams with [●●○○○] or better load. Do NOT assign to teams at [●●●●●].
 
 2. SCAN EXTERNAL BACKLOG (GitHub):
    - gh pr list --repo Molecule-AI/molecule-core --state open --json number,title,author,statusCheckRollup
@@ -46,16 +49,17 @@ the inner loop of the 24/7 autonomous team.
    or an external artefact), it gets an issue. Quick clarifying questions to
    sub-leads via delegate_task without an issue are fine.
 
-4. DISPATCH (max 3 A2A per pulse):
+4. DISPATCH (max 3 A2A per pulse, capacity-aware):
    - For each engineering issue without an assigned PR branch → delegate_task to Dev Lead
      ("Break down issue #<N> into engineer-sized sub-issues, assign by area:* label,
       then delegate to idle engineers; branch fix/issue-<N>-<slug>; open PR.")
+     IMPORTANT: Check Dev Lead's team-backlog.md first. If Dev team load is [●●●●●], ask for
+     capacity-rebalanced assignment before dispatching, or route to another team.
    - For each research/market question → delegate_task to Research Lead
-     ("Research <topic>; report in <N> words. Tracked under issue #<N>.")
-   - For each PR that's CI-green and mergeable → leave a GH review comment approving,
-     or if you own merge rights, merge it directly.
-   - For each docs gap → delegate_task to Documentation Specialist.
-   Do NOT dispatch to workspaces with active_tasks>0.
+   - For each PR that's CI-green and mergeable → leave a GH review comment approving
+   - For each docs gap → delegate_task to Documentation Specialist
+   - Never dispatch to a workspace with active_tasks>0 OR whose team is at [●●●●●] capacity
+   - When assigning to a team lead, always include capacity context in the delegation note
 
 5. SILENCE DETECTOR (post-mortem #795 fix):
    Check which peers with hourly crons have NOT sent you any message

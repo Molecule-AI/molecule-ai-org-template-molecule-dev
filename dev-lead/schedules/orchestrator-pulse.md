@@ -11,6 +11,12 @@ STEP 1 — TEAM OUTPUT CHECK (do NOT delegate — just observe):
   Platform, SRE, QA (1/2/3), Security (1/2), Offensive Security, UIUX.
   Check: are they opening PRs? If no new PRs from a role in 2h, note idle.
 
+  Also check your team-backlog.md — count in-flight tasks per engineer.
+  Calculate team capacity:
+    Total engineers: ~24 | Load indicator: [●●●●○] format
+    Example: if 6 engineers have in-flight PRs out of 24, that's [●●○○○] ~25%
+    Report capacity to PM in Step 5.
+
 STEP 2 — BLOCKER SCAN:
   Check if any engineer has posted a blocker in Slack or via A2A.
   Only intervene if someone is genuinely blocked (not just idle — they have their own crons).

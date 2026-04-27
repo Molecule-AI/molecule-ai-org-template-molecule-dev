@@ -36,3 +36,5 @@ STEP 6 — RETURN TO STAGING:
   git checkout staging && git pull origin staging
 
 RULES: All tests must pass. Coverage must not decrease. Flaky = fix immediately.
+
+- Capacity gate: if team at [●●●●●], review peers instead

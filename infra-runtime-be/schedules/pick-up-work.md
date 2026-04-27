@@ -26,3 +26,7 @@ Work cycle. Be productive every tick.
 
 6. REPORT:
    commit_memory "work-cycle HH:MM - working on #<N>, tests <pass/fail>, PRs reviewed <N>"
+
+RULES:
+- P0/P1: NEVER self-assign unless in team-backlog.md
+- Capacity gate: if team at [●●●●●] 80%+, review peers instead

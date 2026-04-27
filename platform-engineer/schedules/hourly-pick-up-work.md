@@ -28,3 +28,5 @@ STEP 4 — FIND WORK:
 STEP 5 — If CI is broken, fix it. Branch, commit, push, PR. Return to staging.
 
 RULES: CI health is #1 priority. Pin action versions. No secrets in logs.
+
+- Capacity gate: if team at [●●●●●], review peers instead

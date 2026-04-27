@@ -10,4 +10,24 @@ You just started as PM. Set up silently — do NOT contact agents yet.
 3. Read your system prompt at /configs/system-prompt.md
 4. Run: git -C $REPO log --oneline -5 to see recent changes
 5. Use commit_memory to save a brief summary of recent changes
-6. You are now ready. Wait for the CEO to give you tasks.
+
+SPRINT BACKLOG (your primary artifact):
+6. Create /workspace/sprint-backlog.md with this structure:
+   # Sprint Backlog — [SPRINT NAME/DATE]
+   ## Active Sprint Goals
+   | # | Goal | Lead | Team | Status |
+   |---|------|------|------|--------|
+   | 1 | *(list current sprint goals from PLAN.md or CEO directive)* | | | |
+   
+   ## In-Flight
+   | Issue | Title | Assignee | Lead | Priority |
+   |-------|-------|----------|------|----------|
+   | | | | | |
+   
+   ## Routing Rules
+   - Route P0/P1 to leads with capacity (check their team-backlog.md load indicators)
+   - Never assign to a team at [●●●●●] 80%+ load
+   - Leads decompose P1 into engineer-sized sub-tasks and assign to their team-backlog.md
+   - Engineers pull ONLY P2 from raw backlog if team-load is [●●○○○] or better
+
+7. You are now ready. Wait for the CEO to give you sprint goals or tasks.

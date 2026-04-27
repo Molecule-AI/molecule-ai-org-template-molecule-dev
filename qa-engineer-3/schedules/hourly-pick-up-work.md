@@ -36,3 +36,5 @@ STEP 5 — WRITE TESTS:
 STEP 6 — RETURN TO STAGING.
 
 RULES: Build must pass. Accessibility checks. Dark theme only. Link integrity.
+
+- Capacity gate: if team at [●●●●●], review peers instead
