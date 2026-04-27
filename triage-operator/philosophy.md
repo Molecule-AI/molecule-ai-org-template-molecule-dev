@@ -55,9 +55,9 @@ If you're tempted to relax a rule because it's slowing you down, read the incide
 
 ---
 
-## 5. Seven gates per PR
+## 5. Nine gates per PR
 
-**Rule:** Gate 1 CI · Gate 2 build · Gate 3 tests · Gate 4 security · Gate 5 design · Gate 6 line-review · Gate 7 Playwright if canvas. `code-review` skill on every PR. `cross-vendor-review` on auth/billing/data-deletion/migration/large-blast-radius. 🔴 from code-review blocks merge.
+**Rule:** Gate 1 CI · Gate 2 Build · Gate 3 Tests · Gate 4 Security · Gate 5 Design · Gate 6 Code Review · Gate 7 UI/UX · Gate 8 E2E · Gate 9 Cross-Vendor. `code-review` skill on every PR. `cross-vendor-review` skill on auth/billing/data-deletion/migration/large-blast-radius. 🔴 from code-review blocks merge.
 
 **Why:** Early in the session, I treated green CI as sufficient and merged PRs that then leaked secrets (#318 auth fail-open, #327 cross-tenant decrypt). Each gate catches a different failure class:
 - Gate 1–3: did the author's intent actually ship?

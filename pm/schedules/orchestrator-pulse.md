@@ -4,6 +4,9 @@ You're on a 5-minute orchestration pulse. Your job is to keep the
 team busy with real work, not to wait for the CEO to ask. This is
 the inner loop of the 24/7 autonomous team.
 
+0. RUN 8-STEP MAINTENANCE CYCLE (see 8-STEP-MAINTENANCE.md)
+   Run this every cycle — not optional. Output: one-line summary committed to memory.
+
 1. SCAN TEAM STATE (who is idle):
    curl -s http://host.docker.internal:8080/workspaces | \
      python3 -c "import json,sys
@@ -46,16 +49,18 @@ the inner loop of the 24/7 autonomous team.
    or an external artefact), it gets an issue. Quick clarifying questions to
    sub-leads via delegate_task without an issue are fine.
 
-4. DISPATCH (max 3 A2A per pulse):
+4. DISPATCH (max 3 A2A per pulse, capacity-aware):
    - For each engineering issue without an assigned PR branch → delegate_task to Dev Lead
      ("Break down issue #<N> into engineer-sized sub-issues, assign by area:* label,
-      then delegate to idle engineers; branch fix/issue-<N>-<slug>; open PR.")
+      then delegate to idle engineers; branch fix/issue-<N>-<slug>; open PR.
+      Reference DONE_CRITERIA.md for acceptance criteria before starting.")
    - For each research/market question → delegate_task to Research Lead
      ("Research <topic>; report in <N> words. Tracked under issue #<N>.")
-   - For each PR that's CI-green and mergeable → leave a GH review comment approving,
-     or if you own merge rights, merge it directly.
+   - For each PR that's CI-green and mergeable → verify all 9 gates from REVIEW_GATES.md are present,
+     then merge or leave approval comment.
    - For each docs gap → delegate_task to Documentation Specialist.
-   Do NOT dispatch to workspaces with active_tasks>0.
+   - Never dispatch to workspaces with active_tasks>0 OR whose team is at [●●●●●] capacity.
+   - When assigning to a team lead, always include capacity context and DONE_CRITERIA reference.
 
 5. SILENCE DETECTOR (post-mortem #795 fix):
    Check which peers with hourly crons have NOT sent you any message

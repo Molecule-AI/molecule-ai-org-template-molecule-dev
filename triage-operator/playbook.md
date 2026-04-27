@@ -35,11 +35,13 @@ For each new PR and issue (compared to the previous tick's cron-learning), decid
 
 ---
 
-## Step 2 — Seven-gate PR verification
+## Step 2 — Nine-Gate PR Verification (per REVIEW_GATES.md)
 
-For each open PR:
+For each open PR, run through all 9 gates defined in `REVIEW_GATES.md`.
 
-### Gate 1 — CI
+Full gate list: Gate 1 CI · Gate 2 Build · Gate 3 Tests · Gate 4 Security · Gate 5 Design · Gate 6 Code Review · Gate 7 UI/UX · Gate 8 E2E · Gate 9 Cross-Vendor.
+
+Code-review skill on every PR. 🔴 from code-review blocks merge. Cross-vendor-review skill on auth/billing/data-deletion/migration/large-blast-radius changes.
 
 `gh pr checks <N>`. All green? Proceed. Any fail or cancel? Investigate.
 
@@ -68,9 +70,40 @@ Does the change fit the system, or is it a local optimum? A PR that adds an env 
 
 Invoke the `code-review` skill. 16 criteria. Any 🔴 blocks merge.
 
-### Gate 7 — Playwright if canvas
+### Gate 7 — UI/UX Review (if canvas/UI changed)
 
-If the PR touches `canvas/src/**/*.tsx`, run `cd canvas && npm test` locally (or trust the Canvas CI job). For large visual changes, do a manual browser check — the project has a pattern of visual regressions that pass unit tests (dark-theme breaks, hook-rule violations, SSR mismatches).
+If the PR touches `canvas/src/**` or any user-facing component:
+- Does it maintain dark theme compliance (no hardcoded white backgrounds)?
+- Is it keyboard navigable and accessible?
+- Does it respond at 1920×1080, 1280×720, 768×1024?
+- No native `alert()`/`confirm()` dialogs — use `ConfirmDialog` component
+- Run `cd canvas && npm test` for Playwright E2E if canvas changed
+
+For large visual changes: manual browser check — the canvas UI has patterns of visual regressions that pass unit tests (dark-theme breaks, hook-rule violations, SSR mismatches).
+
+---
+
+### Gate 8 — Integration/E2E Test (if platform changed)
+
+Required for: any change to molecule-core, molecule-controlplane, tenant-proxy, workspace-runtime.
+
+- Full workspace lifecycle: create → provision → heartbeat → A2A → delete
+- No contract mismatches in API response shapes
+- WebSocket protocol intact
+- Scheduler cron fires correctly
+- Run `integration-tester/schedules/e2e-test.md` for the full flow
+
+---
+
+### Gate 9 — Cross-Vendor Review (if auth/billing/schema/data-deletion)
+
+Required for: any PR touching authentication, billing, schema migrations, data deletion, or multi-vendor surface.
+
+Invoke `cross-vendor-review` skill before posting APPROVED. Security Auditor posts:
+```
+[security-auditor-agent] CROSS-VENDOR REVIEW: <clear/concerns>
+```
+See `skills/cross-vendor-review.md` for the full procedure.
 
 ---
 
@@ -91,7 +124,7 @@ Wait for CI. If green, proceed to Step 2b. If still red, you misdiagnosed — ba
 
 ### Step 2b — Merge (if approved)
 
-All 7 gates pass + 0 🔴 from code-review + (for noteworthy PRs) cross-vendor-review agreement + (if auth/billing/schema/data-deletion) explicit CEO approval in the chat:
+All 9 gates pass + 0 🔴 from code-review + (for noteworthy PRs) cross-vendor-review agreement + (if auth/billing/schema/data-deletion) explicit CEO approval in the chat:
 
 ```bash
 gh pr merge <N> --merge --delete-branch
