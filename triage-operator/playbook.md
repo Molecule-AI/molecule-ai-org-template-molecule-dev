@@ -35,11 +35,13 @@ For each new PR and issue (compared to the previous tick's cron-learning), decid
 
 ---
 
-## Step 2 — Seven-gate PR verification
+## Step 2 — Nine-Gate PR Verification (per REVIEW_GATES.md)
 
-For each open PR:
+For each open PR, run through all 9 gates defined in `REVIEW_GATES.md`.
 
-### Gate 1 — CI
+Full gate list: Gate 1 CI · Gate 2 Build · Gate 3 Tests · Gate 4 Security · Gate 5 Design · Gate 6 Code Review · Gate 7 UI/UX · Gate 8 E2E · Gate 9 Cross-Vendor.
+
+Code-review skill on every PR. 🔴 from code-review blocks merge. Cross-vendor-review skill on auth/billing/data-deletion/migration/large-blast-radius changes.
 
 `gh pr checks <N>`. All green? Proceed. Any fail or cancel? Investigate.
 

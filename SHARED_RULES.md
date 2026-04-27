@@ -86,6 +86,35 @@ The team's recent telemetry showed only 9 internal-doc references across 7,076 a
 
 6. **A2A amplification guard:** If you receive an escalation from a peer, verify the claims yourself before re-escalating. Do not blindly pass through another agent's unverified claims.
 
+## Definition of Done
+
+Every task is DONE when all of the following are satisfied:
+
+1. **Code:** CI green, tests pass, coverage ≥80% on changed files (or documented exception), regression tests added for bug fixes, no hardcoded credentials
+2. **Review:** Security Auditor APPROVED, code review 🔴 addressed, UIUX APPROVED (if UI changed), E2E verified (if platform changed), Cross-Vendor clear (if auth/billing/data)
+3. **Documentation:** Related docs updated, no internal docs leaked to public repos
+4. **Verification:** PR merged to staging, staging deploy verified, E2E smoke tests pass, rollback plan documented (High/Critical changes)
+5. **Communication:** Issue closed, PM notified, post-mortem filed if incident-related
+
+See `DONE_CRITERIA.md` for the full checklist.
+
+---
+
+## Blast-Radius Classification
+
+Every PR must be classified before merging:
+
+| Class | Examples | Additional Requirements |
+|-------|----------|----------------------|
+| **Low** | Typo, lint, doc-only, test-only | Standard gates |
+| **Medium** | New feature, API addition | Gate 5 (Design Review) |
+| **High** | Auth, billing, schema migration | Gate 4 + Gate 9 + PM ack |
+| **Critical** | Data deletion, secret rotation, multi-tenant isolation | Gate 4 + Gate 9 + CEO ack + rollback plan |
+
+Lead classifies. PM acknowledges High/Critical. CEO acknowledges Critical.
+
+---
+
 ## Why These Rules Exist
 
 When an agent encounters an error it cannot resolve (e.g., a 401 from GitHub), there is a strong temptation to hypothesize a root cause and present it as fact. This is hallucination — fabricating plausible-sounding infrastructure details (server names, cache states, SSH targets) that do not exist. When these fabrications enter the A2A delegation chain, they get amplified: Agent A invents a detail, Agent B cites it as confirmed, PM aggregates it into a "platform emergency," and the CEO spends hours chasing a ghost.
@@ -281,12 +310,19 @@ If you're an engineer and find yourself wanting to run `gh pr merge`, stop and a
 
 ## PR Merge Approval Gate
 
-Before a Lead runs `gh pr merge`, **all four** of these must be on the PR:
+Before a Lead runs `gh pr merge`, **all applicable gates** from `REVIEW_GATES.md` must be on the PR. The full gate list is in `REVIEW_GATES.md` — this is the summary:
 
-1. **All required CI checks green** — `gh pr checks <N>` shows every gating check passing
-2. **`[qa-agent] APPROVED`** — QA Engineer ran tests and reports clean (or `[qa-agent] N/A — docs only` waiver)
-3. **`[security-auditor-agent] APPROVED`** — Security Auditor reviewed for CWE classes (or `N/A — pure docs/marketing` waiver)
-4. **`[uiux-agent] APPROVED`** — UIUX Designer reviewed any canvas/UI changes (or `N/A — backend-only` waiver)
+1. **Gate 1 — CI:** All required CI checks green
+2. **Gate 2 — Build:** All build steps pass
+3. **Gate 3 — Tests:** All tests pass; coverage ≥80% on changed files
+4. **Gate 4 — Security:** `[security-auditor-agent] APPROVED` (or `N/A` waiver)
+5. **Gate 5 — Design:** Lead verifies fit with architecture and 4 philosophies; PM for cross-cutting
+6. **Gate 6 — Code Review:** Lead or peer reviewed via `code-review` skill; no 🔴 blocks
+7. **Gate 7 — UI/UX:** `[uiux-agent] APPROVED` (or `N/A` — no UI surface)
+8. **Gate 8 — E2E:** Integration Tester verified workspace lifecycle (if platform change)
+9. **Gate 9 — Cross-Vendor:** For auth/billing/data: `[security-auditor-agent] CROSS-VENDOR REVIEW: clear`
+
+Blast-radius classification (Low/Medium/High/Critical) determines which gates are required and whether PM/CEO ack is needed. See `REVIEW_GATES.md` for the full decision tree.
 
 Each reviewer MUST verify before posting APPROVED (see Observability Rules above).
 
